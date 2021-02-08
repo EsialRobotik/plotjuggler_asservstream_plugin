@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root version="2.3.8">
+ <tabbed_widget parent="main_window" name="Main Window">
+  <Tab containers="1" tab_name="Polaire + vitesse">
+   <Container>
+    <DockSplitter count="2" orientation="-" sizes="0.500539;0.499461">
+     <DockSplitter count="2" orientation="|" sizes="0.5;0.5">
+      <DockSplitter count="2" orientation="-" sizes="0.50108;0.49892">
+       <DockArea name="...">
+        <plot mode="TimeSeries" style="Lines">
+         <range bottom="-0.008889" top="0.000217" left="0.000000" right="25.000000"/>
+         <limitY/>
+         <curve color="#1f77b4" name="distance_regulator/accumulator"/>
+         <curve color="#d62728" name="distance_regulator/goal"/>
+        </plot>
+       </DockArea>
+       <DockArea name="...">
+        <plot mode="TimeSeries" style="Lines">
+         <range bottom="-0.073984" top="0.126016" left="0.000000" right="25.000000"/>
+         <limitY/>
+         <curve color="#17becf" name="distance_regulator/limited_output"/>
+         <curve color="#bcbd22" name="distance_regulator/output"/>
+        </plot>
+       </DockArea>
+      </DockSplitter>
+      <DockSplitter count="2" orientation="-" sizes="0.50108;0.49892">
+       <DockArea name="...">
+        <plot mode="TimeSeries" style="Lines">
+         <range bottom="-0.000002" top="0.000067" left="0.000000" right="25.000000"/>
+         <limitY/>
+         <curve color="#1ac938" name="angle_regulator/accumulator"/>
+         <curve color="#ff7f0e" name="angle_regulator/goal"/>
+        </plot>
+       </DockArea>
+       <DockArea name="...">
+        <plot mode="TimeSeries" style="Lines">
+         <range bottom="-0.142704" top="0.057296" left="0.000000" right="25.000000"/>
+         <limitY/>
+         <curve color="#f14cc1" name="angle_regulator/limited_output"/>
+         <curve color="#9467bd" name="angle_regulator/output"/>
+        </plot>
+       </DockArea>
+      </DockSplitter>
+     </DockSplitter>
+     <DockSplitter count="2" orientation="|" sizes="0.5;0.5">
+      <DockSplitter count="2" orientation="-" sizes="0.5;0.5">
+       <DockArea name="...">
+        <plot mode="TimeSeries" style="Lines">
+         <range bottom="-0.001718" top="0.070438" left="0.000000" right="25.000000"/>
+         <limitY/>
+         <curve color="#1f77b4" name="speed/left/current"/>
+         <curve color="#d62728" name="speed/left/goal"/>
+        </plot>
+       </DockArea>
+       <DockArea name="...">
+        <plot mode="TimeSeries" style="Lines">
+         <range bottom="0.004180" top="0.011396" left="0.000000" right="25.000000"/>
+         <limitY/>
+         <curve color="#1ac938" name="speed/left/outputConsign"/>
+         <curve color="#ff7f0e" name="speed/left/output_consign_integrated"/>
+        </plot>
+       </DockArea>
+      </DockSplitter>
+      <DockSplitter count="2" orientation="-" sizes="0.5;0.5">
+       <DockArea name="...">
+        <plot mode="TimeSeries" style="Lines">
+         <range bottom="-0.017104" top="0.000417" left="0.000000" right="25.000000"/>
+         <limitY/>
+         <curve color="#f14cc1" name="speed/right/current"/>
+         <curve color="#9467bd" name="speed/right/goal"/>
+        </plot>
+       </DockArea>
+       <DockArea name="...">
+        <plot mode="TimeSeries" style="Lines">
+         <range bottom="-0.002767" top="-0.001015" left="0.000000" right="25.000000"/>
+         <limitY/>
+         <curve color="#17becf" name="speed/right/outputConsign"/>
+         <curve color="#bcbd22" name="speed/right/output_consign_integrated"/>
+        </plot>
+       </DockArea>
+      </DockSplitter>
+     </DockSplitter>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <Tab containers="1" tab_name="position X/Y">
+   <Container>
+    <DockSplitter count="1" orientation="-" sizes="1">
+     <DockArea name="...">
+      <plot mode="XYPlot" style="Lines">
+       <range bottom="-0.002412" top="0.002411" left="-0.008889" right="0.000217"/>
+       <limitY/>
+       <curve curve_x="odometry/X" color="#1f77b4" name="odometry/[X;Y]" curve_y="odometry/Y"/>
+       <curve curve_x="commandManager/X" color="#d62728" name="commandManager/[X;Y]" curve_y="commandManager/Y"/>
+      </plot>
+     </DockArea>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <currentTabIndex index="0"/>
+ </tabbed_widget>
+ <use_relative_time_offset enabled="1"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <!-- - - - - - - - - - - - - - - -->
+ <Plugins>
+  <plugin ID="DataLoad CSV">
+   <default time_axis=""/>
+  </plugin>
+  <plugin ID="DataLoad ULog"/>
+  <plugin ID="Esial Robotik asserv stream"/>
+  <plugin ID="MQTT Subscriber"/>
+  <plugin ID="UDP Server"/>
+  <plugin ID="WebSocket Server"/>
+ </Plugins>
+ <!-- - - - - - - - - - - - - - - -->
+ <previouslyLoaded_Datafiles/>
+ <previouslyLoaded_Streamer name="Esial Robotik asserv stream"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <customMathEquations/>
+ <snippets>
+  <snippet name="1st_derivative">
+   <global>var prevX = 0
+var prevY = 0</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="1st_order_lowpass">
+   <global>var prevY = 0
+var alpha = 0.1</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="2D_velocity">
+   <global>var prev_x = 0
+var prev_y = 0
+var prev_t = 0</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="average_two_curves">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="dist">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="integral">
+   <global>var integral = 0</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="rad_to_deg">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="remove_offset">
+   <global>var is_first = true
+var first_value = 0</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="yaw_from_quaternion">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToYaw(x, y, z, w)
+{
+  // yaw (z-axis rotation)
+  t1 = 2.0 * (w * z + x * y);
+  t2 = 1.0 - 2.0 * (y * y + z * z);
+  yaw = Math.atan2(t1, t2);
+
+  return yaw
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+ </snippets>
+ <!-- - - - - - - - - - - - - - - -->
+</root>
+
