@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>921</width>
-    <height>817</height>
+    <width>1194</width>
+    <height>943</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
-      <width>561</width>
-      <height>301</height>
+      <y>30</y>
+      <width>811</width>
+      <height>271</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -50,8 +50,8 @@ QGroupBox::title {
       <rect>
        <x>20</x>
        <y>20</y>
-       <width>531</width>
-       <height>261</height>
+       <width>781</width>
+       <height>241</height>
       </rect>
      </property>
      <property name="currentIndex">
@@ -64,7 +64,7 @@ QGroupBox::title {
       <widget class="QPushButton" name="vitesse_gauche_update_btn">
        <property name="geometry">
         <rect>
-         <x>410</x>
+         <x>400</x>
          <y>60</y>
          <width>99</width>
          <height>27</height>
@@ -80,7 +80,7 @@ QGroupBox::title {
          <x>10</x>
          <y>70</y>
          <width>121</width>
-         <height>21</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="text">
@@ -93,7 +93,7 @@ QGroupBox::title {
          <x>10</x>
          <y>110</y>
          <width>121</width>
-         <height>21</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="text">
@@ -137,8 +137,8 @@ QGroupBox::title {
         <rect>
          <x>10</x>
          <y>30</y>
-         <width>67</width>
-         <height>17</height>
+         <width>101</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="text">
@@ -165,13 +165,16 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>160</y>
-         <width>351</width>
-         <height>21</height>
+         <y>140</y>
+         <width>481</width>
+         <height>61</height>
         </rect>
        </property>
        <property name="text">
         <string>Speed range = []</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
@@ -184,8 +187,8 @@ QGroupBox::title {
         <rect>
          <x>10</x>
          <y>30</y>
-         <width>67</width>
-         <height>17</height>
+         <width>101</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="text">
@@ -198,7 +201,7 @@ QGroupBox::title {
          <x>10</x>
          <y>110</y>
          <width>121</width>
-         <height>21</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="text">
@@ -208,7 +211,7 @@ QGroupBox::title {
       <widget class="QPushButton" name="vitesse_droite_update_btn">
        <property name="geometry">
         <rect>
-         <x>410</x>
+         <x>400</x>
          <y>60</y>
          <width>99</width>
          <height>27</height>
@@ -256,7 +259,7 @@ QGroupBox::title {
          <x>10</x>
          <y>70</y>
          <width>121</width>
-         <height>21</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="text">
@@ -283,13 +286,16 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>160</y>
-         <width>351</width>
-         <height>21</height>
+         <y>140</y>
+         <width>481</width>
+         <height>61</height>
         </rect>
        </property>
        <property name="text">
         <string>Speed range = []</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
@@ -320,19 +326,22 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>50</y>
+         <y>40</y>
          <width>121</width>
-         <height>21</height>
+         <height>51</height>
         </rect>
        </property>
        <property name="text">
         <string>Distance Kp</string>
        </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
       </widget>
       <widget class="QPushButton" name="distance_update_btn">
        <property name="geometry">
         <rect>
-         <x>410</x>
+         <x>400</x>
          <y>60</y>
          <width>99</width>
          <height>27</height>
@@ -370,9 +379,9 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>50</y>
+         <y>40</y>
          <width>121</width>
-         <height>21</height>
+         <height>41</height>
         </rect>
        </property>
        <property name="text">
@@ -382,7 +391,7 @@ QGroupBox::title {
       <widget class="QPushButton" name="angle_update_btn">
        <property name="geometry">
         <rect>
-         <x>410</x>
+         <x>390</x>
          <y>60</y>
          <width>99</width>
          <height>27</height>
@@ -414,19 +423,22 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>40</y>
-         <width>121</width>
-         <height>21</height>
+         <y>20</y>
+         <width>161</width>
+         <height>61</height>
         </rect>
        </property>
        <property name="text">
         <string>Angle acceleration</string>
        </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
       </widget>
       <widget class="QDoubleSpinBox" name="angle_acc">
        <property name="geometry">
         <rect>
-         <x>150</x>
+         <x>170</x>
          <y>40</y>
          <width>91</width>
          <height>27</height>
@@ -445,7 +457,7 @@ QGroupBox::title {
       <widget class="QLabel" name="label_32">
        <property name="geometry">
         <rect>
-         <x>250</x>
+         <x>270</x>
          <y>40</y>
          <width>121</width>
          <height>21</height>
@@ -460,12 +472,15 @@ QGroupBox::title {
         <rect>
          <x>10</x>
          <y>90</y>
-         <width>361</width>
-         <height>21</height>
+         <width>481</width>
+         <height>81</height>
         </rect>
        </property>
        <property name="text">
         <string>(Also left wheel acceleration limit for direct speed consign)</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
@@ -476,7 +491,7 @@ QGroupBox::title {
       <widget class="QLabel" name="label_33">
        <property name="geometry">
         <rect>
-         <x>260</x>
+         <x>330</x>
          <y>20</y>
          <width>121</width>
          <height>21</height>
@@ -490,19 +505,22 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>20</y>
-         <width>161</width>
-         <height>21</height>
+         <y>0</y>
+         <width>211</width>
+         <height>61</height>
         </rect>
        </property>
        <property name="text">
         <string>Distance max acceleration</string>
        </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
       </widget>
       <widget class="QDoubleSpinBox" name="dist_acc_max">
        <property name="geometry">
         <rect>
-         <x>170</x>
+         <x>230</x>
          <y>20</y>
          <width>81</width>
          <height>27</height>
@@ -522,7 +540,7 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>390</x>
-         <y>110</y>
+         <y>60</y>
          <width>99</width>
          <height>27</height>
         </rect>
@@ -537,18 +555,21 @@ QGroupBox::title {
          <x>10</x>
          <y>50</y>
          <width>361</width>
-         <height>21</height>
+         <height>61</height>
         </rect>
        </property>
        <property name="text">
         <string>(Also right wheel acceleration limit for direct speed consign)</string>
        </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
       </widget>
       <widget class="QDoubleSpinBox" name="dist_acc_min">
        <property name="geometry">
         <rect>
-         <x>170</x>
-         <y>100</y>
+         <x>230</x>
+         <y>120</y>
          <width>81</width>
          <height>27</height>
         </rect>
@@ -566,8 +587,8 @@ QGroupBox::title {
       <widget class="QLabel" name="label_49">
        <property name="geometry">
         <rect>
-         <x>260</x>
-         <y>100</y>
+         <x>330</x>
+         <y>120</y>
          <width>121</width>
          <height>21</height>
         </rect>
@@ -581,19 +602,22 @@ QGroupBox::title {
         <rect>
          <x>10</x>
          <y>100</y>
-         <width>161</width>
-         <height>21</height>
+         <width>221</width>
+         <height>61</height>
         </rect>
        </property>
        <property name="text">
         <string>Distance min acceleration</string>
        </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
       </widget>
       <widget class="QDoubleSpinBox" name="dist_acc_threshold">
        <property name="geometry">
         <rect>
-         <x>160</x>
-         <y>170</y>
+         <x>230</x>
+         <y>160</y>
          <width>81</width>
          <height>27</height>
         </rect>
@@ -611,8 +635,8 @@ QGroupBox::title {
       <widget class="QLabel" name="label_51">
        <property name="geometry">
         <rect>
-         <x>260</x>
-         <y>170</y>
+         <x>330</x>
+         <y>160</y>
          <width>121</width>
          <height>21</height>
         </rect>
@@ -625,13 +649,16 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>170</y>
-         <width>161</width>
-         <height>21</height>
+         <y>150</y>
+         <width>211</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="text">
         <string>High speed threshold</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
@@ -640,8 +667,8 @@ QGroupBox::title {
    <widget class="QGroupBox" name="group_motor_control">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>20</y>
+      <x>890</x>
+      <y>190</y>
       <width>171</width>
       <height>101</height>
      </rect>
@@ -700,7 +727,7 @@ QGroupBox::title {
      <rect>
       <x>30</x>
       <y>330</y>
-      <width>721</width>
+      <width>851</width>
       <height>421</height>
      </rect>
     </property>
@@ -724,20 +751,23 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>260</y>
-       <width>131</width>
-       <height>21</height>
+       <y>270</y>
+       <width>221</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
       <string>Consigne position:</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="pos_cmd">
      <property name="geometry">
       <rect>
        <x>238</x>
-       <y>260</y>
+       <y>270</y>
        <width>81</width>
        <height>27</height>
       </rect>
@@ -759,8 +789,8 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>530</x>
-       <y>260</y>
-       <width>181</width>
+       <y>270</y>
+       <width>251</width>
        <height>27</height>
       </rect>
      </property>
@@ -772,7 +802,7 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>170</y>
+       <y>180</y>
        <width>371</width>
        <height>20</height>
       </rect>
@@ -785,20 +815,23 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>200</y>
-       <width>221</width>
-       <height>21</height>
+       <y>190</y>
+       <width>261</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="text">
       <string>Consigne vitesse avancement robot:</string>
      </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QDoubleSpinBox" name="robot_speed_lin_cmd">
      <property name="geometry">
       <rect>
-       <x>238</x>
-       <y>200</y>
+       <x>272</x>
+       <y>210</y>
        <width>81</width>
        <height>27</height>
       </rect>
@@ -820,8 +853,8 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>230</y>
-       <width>701</width>
+       <y>250</y>
+       <width>761</width>
        <height>20</height>
       </rect>
      </property>
@@ -835,9 +868,9 @@ QGroupBox::title {
     <widget class="QPushButton" name="robot_speed_lin_cmd_btn">
      <property name="geometry">
       <rect>
-       <x>530</x>
+       <x>580</x>
        <y>200</y>
-       <width>181</width>
+       <width>251</width>
        <height>27</height>
       </rect>
      </property>
@@ -849,7 +882,7 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>330</x>
-       <y>260</y>
+       <y>270</y>
        <width>67</width>
        <height>21</height>
       </rect>
@@ -861,10 +894,10 @@ QGroupBox::title {
     <widget class="QLabel" name="label_12">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>200</y>
-       <width>67</width>
-       <height>21</height>
+       <x>352</x>
+       <y>190</y>
+       <width>61</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="text">
@@ -875,7 +908,7 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>290</y>
+       <y>300</y>
        <width>701</width>
        <height>20</height>
       </rect>
@@ -921,12 +954,15 @@ QGroupBox::title {
       <rect>
        <x>10</x>
        <y>320</y>
-       <width>131</width>
-       <height>21</height>
+       <width>221</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
       <string>Consigne angle:</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="angle_cmd_btn">
@@ -934,7 +970,7 @@ QGroupBox::title {
       <rect>
        <x>530</x>
        <y>320</y>
-       <width>181</width>
+       <width>251</width>
        <height>27</height>
       </rect>
      </property>
@@ -945,10 +981,10 @@ QGroupBox::title {
     <widget class="QLabel" name="label_13">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>140</y>
-       <width>67</width>
-       <height>21</height>
+       <x>352</x>
+       <y>130</y>
+       <width>61</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="text">
@@ -959,20 +995,23 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>140</y>
-       <width>221</width>
-       <height>21</height>
+       <y>120</y>
+       <width>261</width>
+       <height>71</height>
       </rect>
      </property>
      <property name="text">
       <string>Consigne vitesse angulaire robot:</string>
      </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QDoubleSpinBox" name="robot_speed_ang_cmd">
      <property name="geometry">
       <rect>
-       <x>238</x>
-       <y>140</y>
+       <x>270</x>
+       <y>150</y>
        <width>81</width>
        <height>27</height>
       </rect>
@@ -987,9 +1026,9 @@ QGroupBox::title {
     <widget class="QPushButton" name="robot_speed_ang_cmd_btn">
      <property name="geometry">
       <rect>
-       <x>530</x>
+       <x>580</x>
        <y>140</y>
-       <width>181</width>
+       <width>251</width>
        <height>27</height>
       </rect>
      </property>
@@ -1001,7 +1040,7 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>110</y>
+       <y>120</y>
        <width>361</width>
        <height>20</height>
       </rect>
@@ -1013,9 +1052,9 @@ QGroupBox::title {
     <widget class="QPushButton" name="left_whell_speed_cmd_btn">
      <property name="geometry">
       <rect>
-       <x>530</x>
+       <x>580</x>
        <y>80</y>
-       <width>181</width>
+       <width>251</width>
        <height>27</height>
       </rect>
      </property>
@@ -1026,8 +1065,8 @@ QGroupBox::title {
     <widget class="QDoubleSpinBox" name="left_wheel_speed_cmd">
      <property name="geometry">
       <rect>
-       <x>238</x>
-       <y>80</y>
+       <x>270</x>
+       <y>90</y>
        <width>81</width>
        <height>27</height>
       </rect>
@@ -1049,22 +1088,25 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>80</y>
-       <width>221</width>
-       <height>21</height>
+       <y>70</y>
+       <width>261</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="text">
       <string>Consigne directe vitesse roue gauche:</string>
      </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QLabel" name="label_15">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>80</y>
-       <width>67</width>
-       <height>21</height>
+       <x>352</x>
+       <y>70</y>
+       <width>61</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="text">
@@ -1087,7 +1129,7 @@ QGroupBox::title {
     <widget class="QDoubleSpinBox" name="right_wheel_speed_cmd">
      <property name="geometry">
       <rect>
-       <x>238</x>
+       <x>270</x>
        <y>30</y>
        <width>81</width>
        <height>27</height>
@@ -1110,21 +1152,24 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>30</y>
-       <width>221</width>
-       <height>21</height>
+       <y>20</y>
+       <width>261</width>
+       <height>51</height>
       </rect>
      </property>
      <property name="text">
       <string>Consigne directe vitesse roue droite:</string>
      </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QPushButton" name="right_whell_speed_cmd_btn">
      <property name="geometry">
       <rect>
-       <x>530</x>
+       <x>580</x>
        <y>30</y>
-       <width>181</width>
+       <width>251</width>
        <height>27</height>
       </rect>
      </property>
@@ -1135,10 +1180,10 @@ QGroupBox::title {
     <widget class="QLabel" name="label_17">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>30</y>
-       <width>67</width>
-       <height>21</height>
+       <x>352</x>
+       <y>10</y>
+       <width>61</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="text">
@@ -1148,7 +1193,7 @@ QGroupBox::title {
     <widget class="Line" name="line_6">
      <property name="geometry">
       <rect>
-       <x>370</x>
+       <x>410</x>
        <y>30</y>
        <width>20</width>
        <height>201</height>
@@ -1161,7 +1206,7 @@ QGroupBox::title {
     <widget class="Line" name="line_7">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>560</x>
        <y>30</y>
        <width>20</width>
        <height>201</height>
@@ -1174,10 +1219,10 @@ QGroupBox::title {
     <widget class="QLabel" name="label_26">
      <property name="geometry">
       <rect>
-       <x>380</x>
-       <y>70</y>
-       <width>141</width>
-       <height>41</height>
+       <x>420</x>
+       <y>30</y>
+       <width>151</width>
+       <height>101</height>
       </rect>
      </property>
      <property name="text">
@@ -1193,8 +1238,8 @@ QGroupBox::title {
     <widget class="QSpinBox" name="speed_consign_duration">
      <property name="geometry">
       <rect>
-       <x>390</x>
-       <y>120</y>
+       <x>440</x>
+       <y>140</y>
        <width>91</width>
        <height>26</height>
       </rect>
@@ -1213,7 +1258,7 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>490</x>
-       <y>110</y>
+       <y>130</y>
        <width>21</width>
        <height>41</height>
       </rect>
@@ -1245,9 +1290,9 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>380</y>
-       <width>41</width>
-       <height>21</height>
+       <y>370</y>
+       <width>61</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -1276,9 +1321,9 @@ QGroupBox::title {
     <widget class="QLabel" name="label_19">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>175</x>
        <y>380</y>
-       <width>16</width>
+       <width>21</width>
        <height>21</height>
       </rect>
      </property>
@@ -1334,9 +1379,9 @@ QGroupBox::title {
     <widget class="QLabel" name="label_28">
      <property name="geometry">
       <rect>
-       <x>350</x>
+       <x>345</x>
        <y>380</y>
-       <width>16</width>
+       <width>21</width>
        <height>21</height>
       </rect>
      </property>
@@ -1349,7 +1394,7 @@ QGroupBox::title {
       <rect>
        <x>530</x>
        <y>380</y>
-       <width>181</width>
+       <width>251</width>
        <height>27</height>
       </rect>
      </property>
@@ -1361,8 +1406,8 @@ QGroupBox::title {
    <widget class="QGroupBox" name="dist_angle_controlmotor_control_2">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>140</y>
+      <x>890</x>
+      <y>310</y>
       <width>171</width>
       <height>101</height>
      </rect>
@@ -1419,8 +1464,8 @@ QGroupBox::title {
    <widget class="QGroupBox" name="group_reset">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>250</y>
+      <x>890</x>
+      <y>440</y>
       <width>171</width>
       <height>71</height>
      </rect>
@@ -1464,8 +1509,8 @@ QGroupBox::title {
    <widget class="QGroupBox" name="group_get_config">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>120</y>
+      <x>830</x>
+      <y>40</y>
       <width>141</width>
       <height>121</height>
      </rect>
@@ -1522,8 +1567,8 @@ QGroupBox::title {
    <widget class="QGroupBox" name="group_reset_2">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>580</y>
+      <x>910</x>
+      <y>600</y>
       <width>131</width>
       <height>71</height>
      </rect>
@@ -1570,7 +1615,7 @@ QGroupBox::title {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>921</width>
+     <width>1194</width>
      <height>22</height>
     </rect>
    </property>

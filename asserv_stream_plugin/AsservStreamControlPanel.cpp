@@ -97,18 +97,20 @@ void AsservStreamControlPanel::on_distAngle_disable_btn_clicked()
 void AsservStreamControlPanel::on_vitesse_gauche_update_btn_clicked()
 {
     char buffer[128];
-    int len = sprintf(buffer, "asserv speedcontrol l %s %s",
+    int len = sprintf(buffer, "asserv speedcontrol l %s %s %s",
                       ui_->vitesse_gauche_Kp->text().toStdString().c_str(),
-                      ui_->vitesse_gauche_Ki->text().toStdString().c_str() );
+                      ui_->vitesse_gauche_Ki->text().toStdString().c_str(),
+                      ui_->vitesse_gauche_range->text().toStdString().c_str() );
     send(buffer, len);
 }
 
 void AsservStreamControlPanel::on_vitesse_droite_update_btn_clicked()
 {
     char buffer[128];
-    int len = sprintf(buffer, "asserv speedcontrol r %s %s",
+    int len = sprintf(buffer, "asserv speedcontrol r %s %s %s",
                       ui_->vitesse_droite_Kp->text().toStdString().c_str(),
-                      ui_->vitesse_droite_Ki->text().toStdString().c_str() );
+                      ui_->vitesse_droite_Ki->text().toStdString().c_str(),
+                      ui_->vitesse_droite_range->text().toStdString().c_str());
     send(buffer, len);
 }
 
