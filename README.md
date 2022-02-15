@@ -10,17 +10,6 @@ Il faut initialiser le sous module de plotjuggler:
 git submodule update --init
 ```
 
-
-## compiler le plugin asserv_stream
-
-```
-cd asserv_stream_plugin
-mkdir build
-cd build
-cmake ..
-make
-```
-
 ## compiler plotjuggler
 
 ```
@@ -30,6 +19,18 @@ cd build
 cmake ..
 make
 ```
+
+
+## compiler le plugin asserv_stream
+
+```
+cd asserv_stream_plugin
+mkdir build
+cd build
+cmake -DPlotJuggler_LIBRARY:FILEPATH="../../PlotJuggler/build/bin/" ..
+make
+```
+
 
 Voir le repo du plugin pour ce qui est nécéssaire pour la compilation et l'utilisation de plotjuggler : https://github.com/facontidavide/PlotJuggler
 
