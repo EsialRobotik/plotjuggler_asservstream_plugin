@@ -10,6 +10,12 @@ Il faut initialiser le sous module de plotjuggler:
 git submodule update --init
 ```
 
+Il va falloir la lib config pour le C++
+
+```
+sudo apt install libconfig++-dev
+```
+
 ## compiler plotjuggler
 
 ```

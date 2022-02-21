@@ -7,7 +7,16 @@
 
 AsservStream_uartDecoder::AsservStream_uartDecoder()
 {
+	nbValueInSample = 0;
+	currentSample = nullptr;
+	nbValues = 0;
 	currentState = &AsservStream_uartDecoder::synchroLookUp;
+}
+
+void AsservStream_uartDecoder::setNumberValuesInSample(int nbValuesInSample)
+{
+	nbValueInSample = nbValuesInSample;
+	currentSample = new float[nbValueInSample];
 }
 
 
@@ -39,7 +48,7 @@ void AsservStream_uartDecoder::synchroLookUp(uint8_t byte)
     	isCurrentSampleValid = false;
     	nbSynchroByteFound = 0;
     	nbSynchroConfigByteFound = 0;
-    	printf("drop..\n");
+    	printf("drop ..\n");
     }
 
    if( nbSynchroByteFound == sizeof(synchroWord) )  // Synchro found !
@@ -49,11 +58,16 @@ void AsservStream_uartDecoder::synchroLookUp(uint8_t byte)
 		currentState =  &AsservStream_uartDecoder::getRemainingData;
 
 		if( isCurrentSampleValid)
-			decodedSampleQueue.push(currentDecodedSample);
+		{
+			std::vector<float> sample(currentSample, currentSample+nbValueInSample );
+			uint32_t *timestamp = (uint32_t*)&currentSample[0];
+			sample[0] = float(*timestamp);
+			decodedSampleQueue.push(sample);
+		}
    }
 
 
-   if( nbSynchroConfigByteFound == sizeof(synchroWord_config) )  // Synchro found !
+   if( nbSynchroConfigByteFound == sizeof(synchroWord_config) )  // config Synchro found !
    {
 		nbSynchroByteFound = 0;
 		nbSynchroConfigByteFound = 0;
@@ -61,7 +75,10 @@ void AsservStream_uartDecoder::synchroLookUp(uint8_t byte)
 
 
 		if( isCurrentSampleValid)
-			decodedSampleQueue.push(currentDecodedSample);
+		{
+			std::vector<float> sample(currentSample, currentSample+nbValueInSample );
+			decodedSampleQueue.push(sample);
+		}
    }
 
 }
@@ -69,10 +86,11 @@ void AsservStream_uartDecoder::synchroLookUp(uint8_t byte)
 void AsservStream_uartDecoder::getRemainingData(uint8_t byte)
 {
     static int nbByteRead = 0;
-    static uint8_t *currentDecodedSamplePtr = (uint8_t*)&currentDecodedSample;
+    uint8_t *currentDecodedSamplePtr = (uint8_t*)currentSample;
     currentDecodedSamplePtr[nbByteRead++] = byte;
 
-    if(nbByteRead == sizeof(currentDecodedSample))
+
+    if(nbByteRead == (nbValueInSample*4))
     {   
         nbByteRead = 0;
 		currentState =  &AsservStream_uartDecoder::synchroLookUp;
@@ -96,7 +114,6 @@ void AsservStream_uartDecoder::getRemainingConfig(uint8_t byte)
     	{
     		nbValues = nbByteRead;
     		configAvailable = true;
-        	printf("Received %d bytes of config\n", nbByteRead);
 
     		nbByteRead = 0;
     		nbByteToRead = 0;
@@ -106,11 +123,11 @@ void AsservStream_uartDecoder::getRemainingConfig(uint8_t byte)
 
 }
 
-bool AsservStream_uartDecoder::getDecodedSample(UsbStreamSample *sample)
+bool AsservStream_uartDecoder::getDecodedSample(std::vector<float> &sample)
 {
-	if(decodedSampleQueue.empty() || sample == NULL )
+	if(decodedSampleQueue.empty() )
 		return false;
-	*sample = decodedSampleQueue.front();
+	sample = decodedSampleQueue.front();
 	decodedSampleQueue.pop();
 	return true;
 }
