@@ -24,11 +24,13 @@ find_package(Qt5 REQUIRED COMPONENTS
     Concurrent
     Xml
     Svg
-    WebSockets
-    SerialPort )
+    WebSocket
+    SerialPort)
     
 find_package(Boost COMPONENTS system REQUIRED)
     
+    Qt5::WebSockets
+    Qt5::SerialPort)
 
 include_directories(
     3rdparty
