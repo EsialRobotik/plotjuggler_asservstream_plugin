@@ -33,7 +33,7 @@ make
 cd asserv_stream_plugin
 mkdir build
 cd build
-cmake -DPlotJuggler_LIBRARY:FILEPATH="../../PlotJuggler/build/bin/" ..
+cmake -DPlotJuggler_LIBRARY:FILEPATH="../../PlotJuggler/build"  -DPlotJuggler_INCLUDE_DIR:FILEPATH="../../PlotJuggler/plotjuggler_base/include/PlotJuggler"  ..
 make
 ```
 

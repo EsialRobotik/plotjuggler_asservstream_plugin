@@ -59,6 +59,10 @@ find_library(libconfig config++)
 message(STATUS "libconfig FOUND")
 
 include_directories(${PlotJuggler_INCLUDE_DIRS})
+link_directories( ${PlotJuggler_LIBRARIES})
+message(STATUS "Include dir  ${PlotJuggler_INCLUDE_DIRS}")
+message(STATUS "PlotJuggler_LIBRARIES   ${PlotJuggler_LIBRARIES}")
+
 list(APPEND ${PJ_LIBRARIES} ${PlotJuggler_LIBRARIES} )
 set(PJ_PLUGIN_INSTALL_DIRECTORY bin )
 
