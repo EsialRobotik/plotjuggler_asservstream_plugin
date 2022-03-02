@@ -52,7 +52,6 @@ private:
 
      std::thread _thread;
      bool _running;
-     int fd;
      int fdLog;
      AsservStream_uartDecoder uartDecoder;
      AsservStreamControlPanel *controlPanelWindows;

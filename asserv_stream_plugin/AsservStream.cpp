@@ -30,7 +30,7 @@ using namespace libconfig;
 using namespace PJ;
 
 
-AsservStream::AsservStream():_running(false),fd(-1), fdLog(-1), deviceOpened(false), nbValuesInSample(0)
+AsservStream::AsservStream():_running(false), fdLog(-1), deviceOpened(false), nbValuesInSample(0)
 {
     controlPanelWindows = nullptr;
 }
@@ -164,7 +164,7 @@ bool AsservStream::start(QStringList*)
         _thread = std::thread([this]()
         {   this->loop();});
 
-        controlPanelWindows = new AsservStreamControlPanel(new Ui_AsservStreamControlPanel, &uartDecoder, fd, fdLog);
+        controlPanelWindows = new AsservStreamControlPanel(new Ui_AsservStreamControlPanel, &uartDecoder, device, fdLog);
         controlPanelWindows->show();
 
         return true;
@@ -177,16 +177,21 @@ bool AsservStream::start(QStringList*)
 
 void AsservStream::shutdown()
 {
-    _running = false;
-    if( _thread.joinable()) _thread.join();
+	if( _running )
+	{
+		_running = false;
+		if( _thread.joinable()) _thread.join();
 
-    if(controlPanelWindows != nullptr)
-    	controlPanelWindows->close();
+		if(controlPanelWindows != nullptr)
+			controlPanelWindows->close();
 
-    device->clearError();
-    device->close();
-    delete device;
-
+		if( device )
+		{
+			device->clearError();
+			device->close();
+			delete device;
+		}
+	}
 
 }
 
@@ -198,7 +203,6 @@ AsservStream::~AsservStream()
     if(controlPanelWindows != nullptr)
     	delete(controlPanelWindows);
 
-    emit closed();
 }
 
 void AsservStream::pushSingleCycle()
@@ -222,7 +226,7 @@ void AsservStream::pushSingleCycle()
         added_data = true;
     }
     if(added_data)
-    	emit dataReceived();
+    	emit this->dataReceived();
 }
 
 void AsservStream::loop()
