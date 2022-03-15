@@ -29,10 +29,10 @@ using namespace std;
 using namespace libconfig;
 using namespace PJ;
 
-
 AsservStream::AsservStream():_running(false), fdLog(-1), deviceOpened(false), nbValuesInSample(0)
 {
     controlPanelWindows = nullptr;
+    device = nullptr;
 }
 
 bool AsservStream::readConfigFile()
@@ -108,11 +108,16 @@ bool AsservStream::openPort()
 
     if (!ok)
         return false;
-    device = new QSerialPort(this);
-    device->setPortName(portName);
+    if(!device)
+    {
+    	device = new QSerialPort(this);
+    	device->setPortName(portName);
+    }
+
     deviceOpened = device->open(QIODevice::ReadWrite);
 
     if(deviceOpened){
+        device->clear();
         device->setBaudRate(BAUDRATE);
         device->setDataBits(QSerialPort::Data8);
         device->setParity(QSerialPort::NoParity);
@@ -120,6 +125,7 @@ bool AsservStream::openPort()
         device->setFlowControl(QSerialPort::NoFlowControl);
         device->flush();
         printf("opened port %s\n", portName.toStdString().c_str());
+        printf("port error : %d\n", device->error());
         return true;
 
     } else{
@@ -188,8 +194,10 @@ void AsservStream::shutdown()
 		if( device )
 		{
 			device->clearError();
+			device->clear();
 			device->close();
-			delete device;
+//			delete device;
+//			device = nullptr;
 		}
 	}
 
@@ -202,7 +210,6 @@ AsservStream::~AsservStream()
     shutdown();
     if(controlPanelWindows != nullptr)
     	delete(controlPanelWindows);
-
 }
 
 void AsservStream::pushSingleCycle()
