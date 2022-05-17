@@ -54,8 +54,14 @@ QGroupBox::title {
        <height>241</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="tab_vitesse_gauche">
       <attribute name="title">
@@ -485,6 +491,15 @@ QGroupBox::title {
       </widget>
      </widget>
      <widget class="QWidget" name="tab_acc_dist">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="font">
+       <font>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
       <attribute name="title">
        <string>Acceleration distance</string>
       </attribute>
@@ -659,6 +674,216 @@ QGroupBox::title {
        </property>
        <property name="wordWrap">
         <bool>true</bool>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab_acc_dec_dist">
+      <attribute name="title">
+       <string>Acceleration Deceleration distance</string>
+      </attribute>
+      <widget class="QDoubleSpinBox" name="dist_acc_fw">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>20</y>
+         <width>81</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <double>10000.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_35">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>211</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Distance max acceleration avant</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_36">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>20</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>mm/sec²</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="dist_dec_fw">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>60</y>
+         <width>81</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <double>10000.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_37">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>40</y>
+         <width>211</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Distance max deceleration avant</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_38">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>60</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>mm/sec²</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="dist_acc_bw">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>120</y>
+         <width>81</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <double>10000.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_39">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>100</y>
+         <width>211</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Distance max acceleration arrière</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_40">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>120</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>mm/sec²</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_41">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>160</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>mm/sec²</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_42">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>140</y>
+         <width>211</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Distance max acceleration arrière</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="dist_dec_bw">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>160</y>
+         <width>81</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <double>10000.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="distance_acc_dec_update_btn">
+       <property name="geometry">
+        <rect>
+         <x>400</x>
+         <y>80</y>
+         <width>99</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Update</string>
        </property>
       </widget>
      </widget>
