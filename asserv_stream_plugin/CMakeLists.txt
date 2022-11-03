@@ -52,7 +52,7 @@ set( PJ_LIBRARIES ${QT_LIBRARIES} )
 
 
 
-find_package(PlotJuggler REQUIRED)
+find_package(plotjuggler REQUIRED)
 message(STATUS "PlotJuggler FOUND")
 
 find_library(libconfig config++)

@@ -151,11 +151,13 @@ void AsservStreamControlPanel::on_distance_acc_update_btn_clicked()
 void AsservStreamControlPanel::on_distance_acc_dec_update_btn_clicked()
 {
     char buffer[128];
-    int len = sprintf(buffer, "asserv distaccdec %s %s %s %s",
+    int len = sprintf(buffer, "asserv distaccdec %s %s %s %s %s",
               ui_->dist_acc_fw->text().toStdString().c_str(),
               ui_->dist_dec_fw->text().toStdString().c_str(),
 			  ui_->dist_acc_bw->text().toStdString().c_str(),
-			  ui_->dist_dec_bw->text().toStdString().c_str()
+			  ui_->dist_dec_bw->text().toStdString().c_str(),
+			  ui_->dist_dampling->text().toStdString().c_str()
+
 			  );
     send(buffer, len);
 }
@@ -260,13 +262,14 @@ void AsservStreamControlPanel::on_update_config_btn_clicked()
 
 	ui_->angle_acc->setValue(tab[index++]);
 
-//	ui_->dist_acc_max->setValue(tab[index++]);
-//	ui_->dist_acc_min->setValue(tab[index++]);
-//	ui_->dist_acc_threshold->setValue(tab[index++]);
-	ui_->dist_acc_fw->setValue(tab[index++]);
-	ui_->dist_dec_fw->setValue(tab[index++]);
-	ui_->dist_acc_bw->setValue(tab[index++]);
-	ui_->dist_dec_bw->setValue(tab[index++]);
+	ui_->dist_acc_max->setValue(tab[index++]);
+	ui_->dist_acc_min->setValue(tab[index++]);
+	ui_->dist_acc_threshold->setValue(tab[index++]);
+	// ui_->dist_acc_fw->setValue(tab[index++]);
+	// ui_->dist_dec_fw->setValue(tab[index++]);
+	// ui_->dist_acc_bw->setValue(tab[index++]);
+	// ui_->dist_dec_bw->setValue(tab[index++]);
+	// ui_->dist_dampling->setValue(tab[index++]);
 
 	ui_->vitesse_gauche_Kp->setValue(leftKp[leftSpinBoxValue]);
 	ui_->vitesse_gauche_Ki->setValue(leftKi[leftSpinBoxValue]);

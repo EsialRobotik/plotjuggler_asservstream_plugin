@@ -114,7 +114,7 @@ void AsservStream_uartDecoder::getRemainingConfig(uint8_t byte)
     	{
     		nbValues = nbByteRead;
     		configAvailable = true;
-
+			printf("Read %d bytes \n", nbValues);
     		nbByteRead = 0;
     		nbByteToRead = 0;
     		currentState =  &AsservStream_uartDecoder::synchroLookUp;

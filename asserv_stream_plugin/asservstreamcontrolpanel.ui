@@ -61,7 +61,7 @@ QGroupBox::title {
       </font>
      </property>
      <property name="currentIndex">
-      <number>6</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="tab_vitesse_gauche">
       <attribute name="title">
@@ -492,7 +492,7 @@ QGroupBox::title {
      </widget>
      <widget class="QWidget" name="tab_acc_dist">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="font">
        <font>
@@ -533,6 +533,9 @@ QGroupBox::title {
        </property>
       </widget>
       <widget class="QDoubleSpinBox" name="dist_acc_max">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>230</x>
@@ -552,6 +555,9 @@ QGroupBox::title {
        </property>
       </widget>
       <widget class="QPushButton" name="distance_acc_update_btn">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>390</x>
@@ -581,6 +587,9 @@ QGroupBox::title {
        </property>
       </widget>
       <widget class="QDoubleSpinBox" name="dist_acc_min">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>230</x>
@@ -629,6 +638,9 @@ QGroupBox::title {
        </property>
       </widget>
       <widget class="QDoubleSpinBox" name="dist_acc_threshold">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>230</x>
@@ -848,7 +860,7 @@ QGroupBox::title {
         </rect>
        </property>
        <property name="text">
-        <string>Distance max acceleration arrière</string>
+        <string>Distance max deceleration arrière</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -876,14 +888,49 @@ QGroupBox::title {
       <widget class="QPushButton" name="distance_acc_dec_update_btn">
        <property name="geometry">
         <rect>
-         <x>400</x>
-         <y>80</y>
+         <x>610</x>
+         <y>140</y>
          <width>99</width>
          <height>27</height>
         </rect>
        </property>
        <property name="text">
         <string>Update</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="dist_dampling">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>60</y>
+         <width>81</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <property name="decimals">
+        <number>2</number>
+       </property>
+       <property name="maximum">
+        <double>10000.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_43">
+       <property name="geometry">
+        <rect>
+         <x>400</x>
+         <y>40</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Dampling</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
