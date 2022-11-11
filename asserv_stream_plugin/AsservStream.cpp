@@ -113,7 +113,7 @@ bool AsservStream::start(QStringList*)
         _thread = std::thread([this]()
         {   this->loop();});
 
-        controlPanelWindows = new AsservStreamControlPanel(new Ui_AsservStreamControlPanel, &uartDecoder, nullptr, fdLog);
+        controlPanelWindows = new AsservStreamControlPanel(new Ui_AsservStreamControlPanel, &uartDecoder, fd, fdLog);
         controlPanelWindows->show();
 
         return true;

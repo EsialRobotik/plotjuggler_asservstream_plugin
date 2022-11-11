@@ -5,7 +5,6 @@
 #include <QtPlugin>
 #include <QMainWindow>
 #include <map>
-#include <QtSerialPort/QSerialPort>
 #include "PlotJuggler/statepublisher_base.h"
 #include "ui_asservstreamcontrolpanel.h"
 #include "AsservStream_uartDecoder.h"
@@ -15,7 +14,7 @@ class AsservStreamControlPanel: public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit AsservStreamControlPanel(Ui_AsservStreamControlPanel *ui, AsservStream_uartDecoder *uartDecoder, QSerialPort * device, int logFd = -1);
+    explicit AsservStreamControlPanel(Ui_AsservStreamControlPanel *ui, AsservStream_uartDecoder *uartDecoder,  int fd, int logFd = -1);
     ~ AsservStreamControlPanel(){}
 
     void closeEvent ( QCloseEvent* ) override{
@@ -67,7 +66,7 @@ private:
 
     void send(char *buffer, size_t length);
     Ui_AsservStreamControlPanel *ui_;
-    QSerialPort * device_;
+    int fd_;
     int logFd_;
     AsservStream_uartDecoder *uartDecoder;
 
