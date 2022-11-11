@@ -7,7 +7,6 @@
 #include "PlotJuggler/datastreamer_base.h"
 #include <map>
 #include <QStringList>
-#include <QtSerialPort/QSerialPort>
 #include <cstring>
 #include <fstream>
 #include <vector>
@@ -45,7 +44,6 @@ public:
 private:
 
      void loop();
-     bool readConfigFile();
      bool openPort();
      void pushSingleCycle();
      double getValueFromName(const std::string &name, std::vector<float> &sample);
@@ -55,10 +53,9 @@ private:
      int fdLog;
      AsservStream_uartDecoder uartDecoder;
      AsservStreamControlPanel *controlPanelWindows;
-     QSerialPort * device;
+     int fd;
      std::vector<std::string> asservStream_fields;
      bool deviceOpened;
-     int nbValuesInSample;
 };
 
 #endif // ASSERVSTREAM_H

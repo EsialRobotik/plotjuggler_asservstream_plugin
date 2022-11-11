@@ -1,23 +1,19 @@
 #include "AsservStream_uartDecoder.h"
 #include <cstdio>
 #include <functional>
+#include <sstream>
 
 #define CALL_MEMBER(object,ptrToMember)  ((object).*(ptrToMember))
 
 
-AsservStream_uartDecoder::AsservStream_uartDecoder()
+AsservStream_uartDecoder::AsservStream_uartDecoder(unsigned int nb_values_maximum_in_sample): nb_values_maximum_in_sample(nb_values_maximum_in_sample), currentSampleSize(0)
 {
-	nbValueInSample = 0;
-	currentSample = nullptr;
+    description_available = false;
+	currentSample = new float[nb_values_maximum_in_sample];
 	nbValues = 0;
 	currentState = &AsservStream_uartDecoder::synchroLookUp;
 }
 
-void AsservStream_uartDecoder::setNumberValuesInSample(int nbValuesInSample)
-{
-	nbValueInSample = nbValuesInSample;
-	currentSample = new float[nbValueInSample];
-}
 
 
 void AsservStream_uartDecoder::processBytes(uint8_t *buffer, unsigned int nbBytes)
@@ -35,6 +31,11 @@ void AsservStream_uartDecoder::synchroLookUp(uint8_t byte)
 	constexpr uint32_t synchroWord_config = 0xCAFEDECA;
 	static int nbSynchroConfigByteFound = 0;
 
+	constexpr uint32_t synchroWord_connection = 0xDEADBEEF;
+	static int nbSynchroConnectionByteFound = 0;
+
+	bool publish_sample = false;
+
     if( byte == ((uint8_t*)&synchroWord)[nbSynchroByteFound] )
     {
     	nbSynchroByteFound++;
@@ -43,42 +44,66 @@ void AsservStream_uartDecoder::synchroLookUp(uint8_t byte)
     {
     	nbSynchroConfigByteFound++;
     }
+    else if( byte == ((uint8_t*)&synchroWord_connection)[nbSynchroConnectionByteFound] )
+    {
+        nbSynchroConnectionByteFound++;
+    }
     else
     {
     	isCurrentSampleValid = false;
     	nbSynchroByteFound = 0;
     	nbSynchroConfigByteFound = 0;
+    	nbSynchroConnectionByteFound = 0;
     	printf("drop ..\n");
     }
 
    if( nbSynchroByteFound == sizeof(synchroWord) )  // Synchro found !
    {
-		nbSynchroByteFound = 0;
-		nbSynchroConfigByteFound = 0;
+        nbSynchroByteFound = 0;
+        nbSynchroConfigByteFound = 0;
+        nbSynchroConnectionByteFound = 0;
 		currentState =  &AsservStream_uartDecoder::getRemainingData;
 
 		if( isCurrentSampleValid)
 		{
-			std::vector<float> sample(currentSample, currentSample+nbValueInSample );
-			uint32_t *timestamp = (uint32_t*)&currentSample[0];
-			sample[0] = float(*timestamp);
-			decodedSampleQueue.push(sample);
+		    publish_sample = true;
+		}
+   }
+
+   if( nbSynchroConfigByteFound == sizeof(synchroWord_config) )  // config Synchro found !
+   {
+       nbSynchroByteFound = 0;
+       nbSynchroConfigByteFound = 0;
+       nbSynchroConnectionByteFound = 0;
+		currentState =  &AsservStream_uartDecoder::getRemainingConfig;
+
+		if( isCurrentSampleValid)
+		{
+		    publish_sample = true;
+		}
+   }
+
+   if( nbSynchroConnectionByteFound == sizeof(synchroWord_connection) )  // config Synchro found !
+   {
+       printf("description message! ..\n");
+       nbSynchroByteFound = 0;
+       nbSynchroConfigByteFound = 0;
+       nbSynchroConnectionByteFound = 0;
+		currentState =  &AsservStream_uartDecoder::getRemainingConnectionInformations;
+
+		if( isCurrentSampleValid)
+		{
+		    publish_sample = true;
 		}
    }
 
 
-   if( nbSynchroConfigByteFound == sizeof(synchroWord_config) )  // config Synchro found !
+   if( publish_sample)
    {
-		nbSynchroByteFound = 0;
-		nbSynchroConfigByteFound = 0;
-		currentState =  &AsservStream_uartDecoder::getRemainingConfig;
-
-
-		if( isCurrentSampleValid)
-		{
-			std::vector<float> sample(currentSample, currentSample+nbValueInSample );
-			decodedSampleQueue.push(sample);
-		}
+       std::vector<float> sample(currentSample, &currentSample[currentSampleSize/sizeof(float)] );
+       decodedSampleQueue.push(sample);
+       isCurrentSampleValid = false;
+       currentSampleSize = 0;
    }
 
 }
@@ -86,11 +111,28 @@ void AsservStream_uartDecoder::synchroLookUp(uint8_t byte)
 void AsservStream_uartDecoder::getRemainingData(uint8_t byte)
 {
     static int nbByteRead = 0;
+
     uint8_t *currentDecodedSamplePtr = (uint8_t*)currentSample;
     currentDecodedSamplePtr[nbByteRead++] = byte;
 
+    if( currentSampleSize == 0 && nbByteRead == sizeof(uint32_t) )
+    {
+        // The first 32bit was read, it contains the total sample size.
+        currentSampleSize = *((uint32_t*)currentDecodedSamplePtr);
+        nbByteRead = 0;
 
-    if(nbByteRead == (nbValueInSample*4))
+
+        if( currentSampleSize  > nb_values_maximum_in_sample*sizeof(float))
+        {
+            printf("Want to retrieve %d sample in the stream.... probably garbage ?\n", currentSampleSize);
+            // probably garbage !
+            nbByteRead = 0;
+            currentState =  &AsservStream_uartDecoder::synchroLookUp;
+            isCurrentSampleValid = false;
+        }
+    }
+
+    if(currentSampleSize > 0 && nbByteRead == currentSampleSize)
     {   
         nbByteRead = 0;
 		currentState =  &AsservStream_uartDecoder::synchroLookUp;
@@ -114,13 +156,49 @@ void AsservStream_uartDecoder::getRemainingConfig(uint8_t byte)
     	{
     		nbValues = nbByteRead;
     		configAvailable = true;
-			printf("Read %d bytes \n", nbValues);
     		nbByteRead = 0;
     		nbByteToRead = 0;
     		currentState =  &AsservStream_uartDecoder::synchroLookUp;
     	}
     }
 
+}
+
+void AsservStream_uartDecoder::getRemainingConnectionInformations(uint8_t byte)
+{
+    static int nbByteRead = 0;
+    static uint32_t nbByteToRead = 0;
+
+    descriptionBuffer[nbByteRead++] = byte;
+
+    if( nbByteToRead == 0 && nbByteRead == sizeof(uint32_t) )
+    {
+        uint32_t *ptr = (uint32_t*)descriptionBuffer;
+    	nbByteToRead = *ptr;
+    	printf("read %d bytes for descr\n", nbByteToRead);
+    	nbByteRead = 0;
+    }
+
+    if( nbByteToRead > 0 && nbByteRead == nbByteToRead)
+    {
+        descriptionBuffer[nbByteRead] = 0;
+        nbByteRead = 0;
+        nbByteToRead = 0;
+        currentState =  &AsservStream_uartDecoder::synchroLookUp;
+
+        std::string str((char*)descriptionBuffer);
+        std::stringstream s_stream(str);
+        while(s_stream.good())
+        {
+            std::string substr;
+            getline(s_stream, substr, ','); //get first string delimited by comma
+            if(substr.length() > 0 )
+            {
+                decodedDescription.push_back(substr);
+            }
+        }
+        description_available = true;
+    }
 }
 
 bool AsservStream_uartDecoder::getDecodedSample(std::vector<float> &sample)
@@ -131,3 +209,21 @@ bool AsservStream_uartDecoder::getDecodedSample(std::vector<float> &sample)
 	decodedSampleQueue.pop();
 	return true;
 }
+
+
+bool AsservStream_uartDecoder::getNewDescription(std::vector<std::string> &description)
+{
+    if( description_available )
+    {
+        description = decodedDescription;
+        description_available = false;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+
+}
+
