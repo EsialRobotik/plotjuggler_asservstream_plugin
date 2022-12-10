@@ -1,75 +1,75 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root>
- <tabbed_widget parent="main_window" name="Main Window">
-  <Tab containers="1" tab_name="tab1">
+ <tabbed_widget name="Main Window" parent="main_window">
+  <Tab tab_name="tab1" containers="1">
    <Container>
-    <DockSplitter orientation="-" count="1" sizes="1">
-     <DockSplitter orientation="|" count="2" sizes="0.5;0.5">
-      <DockSplitter orientation="-" count="4" sizes="0.250503;0.249497;0.250503;0.249497">
+    <DockSplitter count="1" orientation="-" sizes="1">
+     <DockSplitter count="2" orientation="|" sizes="0.5;0.5">
+      <DockSplitter count="4" orientation="-" sizes="0.250287;0.249139;0.251435;0.249139">
        <DockArea name="ANGLE goal">
-        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
-         <range top="8.115065" left="113.580000" bottom="-0.197928" right="118.580000"/>
+        <plot flip_y="false" style="Lines" mode="TimeSeries" flip_x="false">
+         <range top="0.035178" right="22.140000" left="2.140000" bottom="-0.107582"/>
          <limitY/>
-         <curve name="angle_regulator/accumulator" color="#1f77b4"/>
-         <curve name="angle_regulator/goal" color="#d62728"/>
+         <curve color="#1ac938" name="angle_regulator/accumulator"/>
+         <curve color="#ff7f0e" name="angle_regulator/goal"/>
         </plot>
        </DockArea>
        <DockArea name="ANGLE output">
-        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
-         <range top="-1199.900000" left="113.580000" bottom="-1200.100000" right="118.580000"/>
+        <plot flip_y="false" style="Lines" mode="TimeSeries" flip_x="false">
+         <range top="83.650947" right="22.140000" left="2.140000" bottom="-27.380229"/>
          <limitY/>
-         <curve name="angle_regulator/limited_output" color="#1ac938"/>
-         <curve name="angle_regulator/output" color="#ff7f0e"/>
+         <curve color="#1ac938" name="angle_regulator/limited_output"/>
+         <curve color="#ff7f0e" name="angle_regulator/output"/>
         </plot>
        </DockArea>
        <DockArea name="SPEED left goal">
-        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
-         <range top="1230.000000" left="113.580000" bottom="-30.000000" right="118.580000"/>
+        <plot flip_y="false" style="Lines" mode="TimeSeries" flip_x="false">
+         <range top="1531.021124" right="22.140000" left="2.140000" bottom="-1508.488165"/>
          <limitY/>
-         <curve name="speed/left/goal" color="#1f77b4"/>
-         <curve name="speed/left/current" color="#d62728"/>
+         <curve color="#1f77b4" name="speed/left/goal"/>
+         <curve color="#d62728" name="speed/left/current"/>
         </plot>
        </DockArea>
        <DockArea name="SPEED left output">
-        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
-         <range top="102.500000" left="113.580000" bottom="-2.500000" right="118.580000"/>
+        <plot flip_y="false" style="Lines" mode="TimeSeries" flip_x="false">
+         <range top="91.063574" right="22.140000" left="2.140000" bottom="-78.354926"/>
          <limitY/>
-         <curve name="speed/left/outputConsign" color="#f14cc1"/>
-         <curve name="speed/left/output_consign_integrated" color="#9467bd"/>
+         <curve color="#f14cc1" name="speed/left/outputConsign"/>
+         <curve color="#9467bd" name="speed/left/output_consign_integrated"/>
         </plot>
        </DockArea>
       </DockSplitter>
-      <DockSplitter orientation="-" count="4" sizes="0.250503;0.249497;0.250503;0.249497">
+      <DockSplitter count="4" orientation="-" sizes="0.250287;0.250287;0.249139;0.250287">
        <DockArea name="DISTANCE goal">
-        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
-         <range top="23.838747" left="113.580000" bottom="-977.388612" right="118.580000"/>
+        <plot flip_y="false" style="Lines" mode="TimeSeries" flip_x="false">
+         <range top="820.762385" right="22.140000" left="2.140000" bottom="-20.596029"/>
          <limitY/>
-         <curve name="distance_regulator/accumulator" color="#f14cc1"/>
-         <curve name="distance_regulator/goal" color="#9467bd"/>
+         <curve color="#f14cc1" name="distance_regulator/accumulator"/>
+         <curve color="#9467bd" name="distance_regulator/goal"/>
         </plot>
        </DockArea>
        <DockArea name="DISTANCE output">
-        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
-         <range top="1200.100000" left="113.580000" bottom="1199.900000" right="118.580000"/>
+        <plot flip_y="false" style="Lines" mode="TimeSeries" flip_x="false">
+         <range top="2120.432990" right="22.140000" left="2.140000" bottom="-3330.128546"/>
          <limitY/>
-         <curve name="distance_regulator/limited_output" color="#17becf"/>
-         <curve name="distance_regulator/output" color="#bcbd22"/>
+         <curve color="#17becf" name="distance_regulator/limited_output"/>
+         <curve color="#bcbd22" name="distance_regulator/output"/>
         </plot>
        </DockArea>
        <DockArea name="SPEED right goal">
-        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
-         <range top="0.100000" left="113.580000" bottom="-0.100000" right="118.580000"/>
+        <plot flip_y="false" style="Lines" mode="TimeSeries" flip_x="false">
+         <range top="1525.623920" right="22.140000" left="2.140000" bottom="-1510.450824"/>
          <limitY/>
-         <curve name="speed/right/goal" color="#1ac938"/>
-         <curve name="speed/right/current" color="#ff7f0e"/>
+         <curve color="#1ac938" name="speed/right/goal"/>
+         <curve color="#ff7f0e" name="speed/right/current"/>
         </plot>
        </DockArea>
        <DockArea name="SPEED right output">
-        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
-         <range top="0.100000" left="113.580000" bottom="-0.100000" right="118.580000"/>
+        <plot flip_y="false" style="Lines" mode="TimeSeries" flip_x="false">
+         <range top="94.291983" right="22.140000" left="2.140000" bottom="-82.754469"/>
          <limitY/>
-         <curve name="speed/right/outputConsign" color="#17becf"/>
-         <curve name="speed/right/output_consign_integrated" color="#bcbd22"/>
+         <curve color="#17becf" name="speed/right/outputConsign"/>
+         <curve color="#bcbd22" name="speed/right/output_consign_integrated"/>
         </plot>
        </DockArea>
       </DockSplitter>
@@ -77,28 +77,28 @@
     </DockSplitter>
    </Container>
   </Tab>
-  <Tab containers="1" tab_name="tab2">
+  <Tab tab_name="tab2" containers="1">
    <Container>
-    <DockSplitter orientation="-" count="1" sizes="1">
+    <DockSplitter count="1" orientation="-" sizes="1">
      <DockArea name="Robot pos vs goal">
-      <plot mode="XYPlot" flip_y="false" flip_x="false" style="Lines">
-       <range top="12.774141" left="-135.166354" bottom="-66.097242" right="3.296740"/>
+      <plot flip_y="false" style="Lines" mode="XYPlot" flip_x="false">
+       <range top="226.435956" right="820.718304" left="-20.316555" bottom="-222.694000"/>
        <limitY/>
-       <curve curve_y="odometry/Y" name="odometry/[X;Y]" curve_x="odometry/X" color="#d62728"/>
-       <curve curve_y="commandManager/Y" name="commandManager/[X;Y]" curve_x="commandManager/X" color="#1ac938"/>
+       <curve color="#d62728" curve_y="odometry/Y" name="odometry/[X;Y]" curve_x="odometry/X"/>
+       <curve color="#1ac938" curve_y="commandManager/Y" name="commandManager/[X;Y]" curve_x="commandManager/X"/>
       </plot>
      </DockArea>
     </DockSplitter>
    </Container>
   </Tab>
-  <currentTabIndex index="1"/>
+  <currentTabIndex index="0"/>
  </tabbed_widget>
  <use_relative_time_offset enabled="1"/>
  <!-- - - - - - - - - - - - - - - -->
  <!-- - - - - - - - - - - - - - - -->
  <Plugins>
   <plugin ID="DataLoad CSV">
-   <default time_axis="" delimiter="0"/>
+   <default delimiter="0" time_axis=""/>
   </plugin>
   <plugin ID="DataLoad ULog"/>
   <plugin ID="Esial Robotik asserv stream"/>
@@ -111,9 +111,6 @@
    <scripts/>
   </plugin>
   <plugin ID="CSV Exporter"/>
-  <plugin ID="Video Viewer">
-   <config use_frame="true" video_file="" curve_name=""/>
-  </plugin>
  </Plugins>
  <!-- - - - - - - - - - - - - - - -->
  <previouslyLoaded_Datafiles/>
