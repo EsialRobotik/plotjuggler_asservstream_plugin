@@ -48,7 +48,7 @@ void AsservStreamControlPanel::send(char *buffer, size_t length)
 
 	int size = write(fd_, buffer, length);
 	if(size != length)
-		printf("Error: Unable to send full command (wanted %d sent %ld)\n", length, size);
+		printf("Error: Unable to send full command (wanted %ld sent %d)\n", length, size);
 
 	if( logFd_ != -1 )
 	{
