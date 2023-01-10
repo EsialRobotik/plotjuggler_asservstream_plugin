@@ -24,7 +24,9 @@ mkdir build
 cd build
 cmake ..
 make
+sudo make install
 ```
+**NB:** Devoir installer plotjuggler n'est pas idéal, mais compiler un plugin sans cela est excessivement chiant sans cela…..
 
 
 ## compiler le plugin asserv_stream
@@ -33,7 +35,7 @@ make
 cd asserv_stream_plugin
 mkdir build
 cd build
-cmake -DPlotJuggler_LIBRARY:FILEPATH="../../PlotJuggler/build"  -DPlotJuggler_INCLUDE_DIR:FILEPATH="../../PlotJuggler/plotjuggler_base/include/PlotJuggler"  ..
+cmake ..
 make
 ```
 
