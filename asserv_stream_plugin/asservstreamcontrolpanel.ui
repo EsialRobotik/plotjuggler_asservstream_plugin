@@ -1211,6 +1211,9 @@ QGroupBox::title {
        <height>27</height>
       </rect>
      </property>
+     <property name="decimals">
+      <number>6</number>
+     </property>
      <property name="minimum">
       <double>-100.000000000000000</double>
      </property>
@@ -1218,7 +1221,7 @@ QGroupBox::title {
       <double>100.000000000000000</double>
      </property>
      <property name="value">
-      <double>3.140000000000000</double>
+      <double>3.141592000000000</double>
      </property>
     </widget>
     <widget class="QLabel" name="label_8">
