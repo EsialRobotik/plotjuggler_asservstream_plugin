@@ -143,24 +143,27 @@ void AsservStream_uartDecoder::getRemainingData(uint8_t byte)
 void AsservStream_uartDecoder::getRemainingConfig(uint8_t byte)
 {
     static int nbByteRead = 0;
-    static int nbByteToRead = 0;
+    static uint32_t nbByteToRead = 0;
 
-    if( nbByteToRead == 0 )
+    configBuffer[nbByteRead++] = byte;
+
+    if( nbByteToRead == 0 && nbByteRead == sizeof(uint32_t) )
     {
-    	nbByteToRead = byte;
+        uint32_t *ptr = (uint32_t*)configBuffer;
+    	nbByteToRead = *ptr;
+    	printf("%d bytes to read for configuration \n", nbByteToRead);
+    	nbByteRead = 0;
     }
-    else
-    {
-    	configBuffer[nbByteRead++] = byte;
-    	if( nbByteRead == nbByteToRead)
-    	{
-    		nbValues = nbByteRead;
-    		configAvailable = true;
-    		nbByteRead = 0;
-    		nbByteToRead = 0;
-    		currentState =  &AsservStream_uartDecoder::synchroLookUp;
-    	}
-    }
+
+    if( nbByteToRead > 0 && nbByteRead == nbByteToRead)
+	{
+	  configBuffer[nbByteRead] = 0;
+	  nbByteRead = 0;
+	  nbByteToRead = 0;
+	  currentState =  &AsservStream_uartDecoder::synchroLookUp;
+	  configAvailable = true;
+	}
+
 
 }
 
@@ -175,7 +178,7 @@ void AsservStream_uartDecoder::getRemainingConnectionInformations(uint8_t byte)
     {
         uint32_t *ptr = (uint32_t*)descriptionBuffer;
     	nbByteToRead = *ptr;
-    	printf("read %d bytes for descr\n", nbByteToRead);
+    	printf("%d bytes to read for description \n", nbByteToRead);
     	nbByteRead = 0;
     }
 
