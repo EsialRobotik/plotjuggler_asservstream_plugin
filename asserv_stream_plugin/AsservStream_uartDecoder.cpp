@@ -163,7 +163,8 @@ void AsservStream_uartDecoder::getRemainingConfig(uint8_t byte)
     {
         uint32_t *ptr = (uint32_t*)configBuffer;
     	getRemainingConfig_nbByteToRead = *ptr;
-    	printf("%d bytes to read for configuration \n", getRemainingConfig_nbByteToRead);
+        configBufferSize = getRemainingConfig_nbByteToRead;
+    	printf("%d bytes to read for configuration \n", configBufferSize);
     	getRemainingConfig_nbByteRead = 0;
     }
 

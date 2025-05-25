@@ -74,6 +74,9 @@ SET( SRC
     AsservStream_uartDecoder.cpp
     AsservStream.cpp
     AsservStreamControlPanel.cpp
+    cborg/CborBase.cpp
+    cborg/Cbore.cpp
+    cborg/Cborg.cpp
     )
 
 add_library(AsservStream SHARED ${SRC} ${UI_SRC}  )

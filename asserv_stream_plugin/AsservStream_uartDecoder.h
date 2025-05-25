@@ -20,6 +20,7 @@ public:
 	bool getNewDescription(std::vector<std::string> &description);
 
 	uint8_t configBuffer[512];
+	uint32_t configBufferSize;
 	uint8_t descriptionBuffer[4*1024];
 	int nbValues;
 	bool configAvailable = false;

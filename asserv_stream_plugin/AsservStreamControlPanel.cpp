@@ -1,5 +1,5 @@
 #include "AsservStreamControlPanel.h"
-
+#include "cborg/Cbor.h"
 #include <unistd.h>  /* UNIX Standard Definitions      */
 
 AsservStreamControlPanel::AsservStreamControlPanel(Ui_AsservStreamControlPanel *ui, AsservStream_uartDecoder *uartDecoder, int fd, int logFd ):
@@ -226,70 +226,104 @@ void AsservStreamControlPanel::on_goto_test_btn_clicked()
 
 void AsservStreamControlPanel::on_get_config_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv get_config");
-    send(buffer, len);
+	const uint32_t synchroWord_config = 0xCAFEDECA;
+    send((char*)&synchroWord_config, sizeof(synchroWord_config));
 }
 
 void AsservStreamControlPanel::on_update_config_btn_clicked()
 {
-	float *tab = (float*)uartDecoder->configBuffer;
-	int index=0;
+	printf("Try to decode config buffer of size %d \n", uartDecoder->configBufferSize);
+	Cborg top(uartDecoder->configBuffer, uartDecoder->configBufferSize);
 
-	leftKp[0] = tab[index++];
-	leftKi[0] = tab[index++];
-	leftSpeedRange[0] = tab[index++];
-	leftKp[1] = tab[index++];
-	leftKi[1] = tab[index++];
-	leftSpeedRange[1] = tab[index++];
-	leftKp[2] = tab[index++];
-	leftKi[2] = tab[index++];
-	leftSpeedRange[2] = tab[index++];
+	top.print();
+	
+	float valFloat=-1;
+	std::string str;
 
-	rightKp[0] = tab[index++];
-	rightKi[0] = tab[index++];
-	rightSpeedRange[0] = tab[index++];
-	rightKp[1] = tab[index++];
-	rightKi[1] = tab[index++];
-	rightSpeedRange[1] = tab[index++];
-	rightKp[2] = tab[index++];
-	rightKi[2] = tab[index++];
-	rightSpeedRange[2] = tab[index++];
+	top.find("dist_regulator").find("Kp").getFloat(&valFloat);
+	ui_->distance_Kp->setValue(valFloat);
+
+	top.find("angle_regulator").find("Kp").getFloat(&valFloat);
+	ui_->angle_Kp->setValue(valFloat);
+
+	if( top.find("dist_acc").find("name").getString(str) ) 
+	{
+		
+		if( str == "acc_limiter")
+		{
+			// TODO :add Gui
+		}
+		else if ( str == "adv_acc_limiter")
+		{
+			top.find("dist_acc").find("max_acc").getFloat(&valFloat);
+			ui_->dist_acc_max->setValue(valFloat);
+
+			top.find("dist_acc").find("min_acc").getFloat(&valFloat);
+			ui_->dist_acc_min->setValue(valFloat);
+
+			top.find("dist_acc").find("highspeed_threshold").getFloat(&valFloat);
+			ui_->dist_acc_threshold->setValue(valFloat);
+		}
+		else if( str == "acc_dec_limiter")
+		{
+			top.find("dist_acc").find("max_acc_fw").getFloat(&valFloat);
+			ui_->dist_acc_fw->setValue(valFloat);
+
+			top.find("dist_acc").find("max_dec_fw").getFloat(&valFloat);
+			ui_->dist_dec_fw->setValue(valFloat);
+
+			top.find("dist_acc").find("max_acc_bw").getFloat(&valFloat);
+			ui_->dist_acc_bw->setValue(valFloat);
+
+			top.find("dist_acc").find("max_dec_bw").getFloat(&valFloat);
+			ui_->dist_dec_bw->setValue(valFloat);
+
+			top.find("dist_acc").find("dampling").getFloat(&valFloat);
+			ui_->dist_dampling->setValue(valFloat);
+		}
+	}
 
 
-	ui_->distance_Kp->setValue(tab[index++]);
-	ui_->angle_Kp->setValue(tab[index++]);
+	if( top.find("angle_acc").find("name").getString(str) ) 
+	{
+		if( str == "acc_limiter")
+		{
+			top.find("dist_acc").find("max_acc").getFloat(&valFloat);
+			ui_->angle_acc->setValue(valFloat);
+		}
+	}
 
-	ui_->angle_acc->setValue(tab[index++]);
 
-	ui_->dist_acc_max->setValue(tab[index++]);
-	ui_->dist_acc_min->setValue(tab[index++]);
-	ui_->dist_acc_threshold->setValue(tab[index++]);
-	// ui_->dist_acc_fw->setValue(tab[index++]);
-	// ui_->dist_dec_fw->setValue(tab[index++]);
-	// ui_->dist_acc_bw->setValue(tab[index++]);
-	// ui_->dist_dec_bw->setValue(tab[index++]);
-	// ui_->dist_dampling->setValue(tab[index++]);
 
-	ui_->vitesse_gauche_Kp->setValue(leftKp[leftSpinBoxValue]);
-	ui_->vitesse_gauche_Ki->setValue(leftKi[leftSpinBoxValue]);
+	if( top.find("speed_right").find("name").getString(str) ) 
+	{
+		if( str == "adv_speed_ctrl")
+		{
+			top.find("speed_right").find("Range_0").at(0).getFloat(&valFloat);
+			rightSpeedRange[0] = valFloat;
+			top.find("speed_right").find("Range_1").at(0).getFloat(&valFloat);
+			rightSpeedRange[1] = valFloat;
+			top.find("speed_right").find("Range_2").at(0).getFloat(&valFloat);
+			rightSpeedRange[2] = valFloat;
+
+			top.find("speed_right").find("Range_0").at(1).getFloat(&valFloat);
+			rightKp[0] = valFloat;
+			top.find("speed_right").find("Range_1").at(1).getFloat(&valFloat);
+			rightKp[1] = valFloat;
+			top.find("speed_right").find("Range_2").at(1).getFloat(&valFloat);
+			rightKp[2] = valFloat;
+
+			top.find("speed_right").find("Range_0").at(2).getFloat(&valFloat);
+			rightKi[0] = valFloat;
+			top.find("speed_right").find("Range_1").at(2).getFloat(&valFloat);
+			rightKi[1] = valFloat;
+			top.find("speed_right").find("Range_2").at(2).getFloat(&valFloat);
+			rightKi[2] = valFloat;
+		}
+	}
+
 	ui_->vitesse_droite_Kp->setValue(rightKp[rightSpinBoxValue]);
 	ui_->vitesse_droite_Ki->setValue(rightKi[rightSpinBoxValue]);
-
-	QString strLeft("Speed Range:   1=>[0;");
-	strLeft.append(QString::number(leftSpeedRange[0]));
-	strLeft.append("]   2=>[");
-	strLeft.append(QString::number(leftSpeedRange[0]));
-	strLeft.append(";");
-	strLeft.append(QString::number(leftSpeedRange[1]));
-	strLeft.append("]   3=>[");
-	strLeft.append(QString::number(leftSpeedRange[1]));
-	strLeft.append(";");
-	strLeft.append(QString::number(leftSpeedRange[2]));
-	strLeft.append("]");
-	ui_->vitesse_gauche_range_lb->setText(strLeft);
-
-
 	QString strRight("Speed Range:   1=>[0;");
 	strRight.append(QString::number(rightSpeedRange[0]));
 	strRight.append("]   2=>[");
@@ -303,4 +337,46 @@ void AsservStreamControlPanel::on_update_config_btn_clicked()
 	strRight.append("]");
 	ui_->vitesse_droite_range_lb->setText(strRight);
 
+
+
+	if( top.find("speed_left").find("name").getString(str) ) 
+	{
+		if( str == "adv_speed_ctrl")
+		{
+			top.find("speed_left").find("Range_0").at(0).getFloat(&valFloat);
+			leftSpeedRange[0] = valFloat;
+			top.find("speed_left").find("Range_1").at(0).getFloat(&valFloat);
+			leftSpeedRange[1] = valFloat;
+			top.find("speed_left").find("Range_2").at(0).getFloat(&valFloat);
+			leftSpeedRange[2] = valFloat;
+
+			top.find("speed_left").find("Range_0").at(1).getFloat(&valFloat);
+			leftKp[0] = valFloat;
+			top.find("speed_left").find("Range_1").at(1).getFloat(&valFloat);
+			leftKp[1] = valFloat;
+			top.find("speed_left").find("Range_2").at(1).getFloat(&valFloat);
+			leftKp[2] = valFloat;
+
+			top.find("speed_left").find("Range_0").at(2).getFloat(&valFloat);
+			leftKi[0] = valFloat;
+			top.find("speed_left").find("Range_1").at(2).getFloat(&valFloat);
+			leftKi[1] = valFloat;
+			top.find("speed_left").find("Range_2").at(2).getFloat(&valFloat);
+			leftKi[2] = valFloat;
+		}
+	}
+	ui_->vitesse_gauche_Kp->setValue(leftKp[leftSpinBoxValue]);
+	ui_->vitesse_gauche_Ki->setValue(leftKi[leftSpinBoxValue]);
+	QString strLeft("Speed Range:   1=>[0;");
+	strLeft.append(QString::number(leftSpeedRange[0]));
+	strLeft.append("]   2=>[");
+	strLeft.append(QString::number(leftSpeedRange[0]));
+	strLeft.append(";");
+	strLeft.append(QString::number(leftSpeedRange[1]));
+	strLeft.append("]   3=>[");
+	strLeft.append(QString::number(leftSpeedRange[1]));
+	strLeft.append(";");
+	strLeft.append(QString::number(leftSpeedRange[2]));
+	strLeft.append("]");
+	ui_->vitesse_gauche_range_lb->setText(strLeft);
 }
