@@ -8,9 +8,7 @@
 
 AsservStream_uartDecoder::AsservStream_uartDecoder(unsigned int nb_values_maximum_in_sample): nb_values_maximum_in_sample(nb_values_maximum_in_sample), currentSampleSize(0)
 {
-    description_available = false;
 	currentSample = new float[nb_values_maximum_in_sample];
-	nbValues = 0;
 	currentState = &AsservStream_uartDecoder::synchroLookUp;
     reset();
 }
@@ -18,7 +16,9 @@ AsservStream_uartDecoder::AsservStream_uartDecoder(unsigned int nb_values_maximu
 
 void AsservStream_uartDecoder::reset()
 {
-
+    description_available = false;
+    nbValues = 0;
+    asservFrequency = 1;
 	synchroLookUp_nbSynchroByteFound = 0;
 	synchroLookUp_nbSynchroConfigByteFound = 0;
 	synchroLookUp_nbSynchroConnectionByteFound = 0;
@@ -29,7 +29,14 @@ void AsservStream_uartDecoder::reset()
 	getRemainingConnectionInformations_nbByteToRead = 0;
 }
 
+unsigned int AsservStream_uartDecoder::getAsservFrequency() const
+{
+    if( asservFrequency == 1)
+        printf("asservFrequency is set to the default value, this probably not the expected behaviour :) \n");
 
+
+    return asservFrequency;
+}
 
 void AsservStream_uartDecoder::processBytes(uint8_t *buffer, unsigned int nbBytes)
 {
@@ -197,10 +204,22 @@ void AsservStream_uartDecoder::getRemainingConnectionInformations(uint8_t byte)
         {
             std::string substr;
             getline(s_stream, substr, ','); //get first string delimited by comma
-            if(substr.length() > 0 )
+
+            std::string freq_str("freq=");
+            int freqFind = substr.find(freq_str);
+
+
+            if(substr.length() > 0 && freqFind == -1 ) // Ie: a description has been found and the substring isn't the asserv frequency !
             {
                 decodedDescription.push_back(substr);
             }
+            else if(freqFind == 0 )
+            {
+                substr.erase(0, freq_str.size());
+                asservFrequency = atoi(substr.c_str());
+                printf("Found freq => %d\n", asservFrequency);
+            }
+
         }
         description_available = true;
     }

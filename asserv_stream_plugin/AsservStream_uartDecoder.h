@@ -24,6 +24,8 @@ public:
 	int nbValues;
 	bool configAvailable = false;
 
+	unsigned int getAsservFrequency() const;
+
 private:
 	bool isCurrentSampleValid = false;
 
@@ -45,6 +47,9 @@ private:
 	unsigned int currentSampleSize;
 
 
+	unsigned int asservFrequency;
+
+	// Internat states values, should be reset by reset() method
 	int synchroLookUp_nbSynchroByteFound;
 	int synchroLookUp_nbSynchroConfigByteFound;
 	int synchroLookUp_nbSynchroConnectionByteFound;

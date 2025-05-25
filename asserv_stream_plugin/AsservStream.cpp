@@ -22,7 +22,6 @@
 #include <QMetaClassInfo>
 
 
-#define ASSERV_FREQ 600.0
 using namespace std;
 using namespace libconfig;
 using namespace PJ;
@@ -167,7 +166,8 @@ void AsservStream::pushSingleCycle()
         bool added_data = false;
         while (uartDecoder.getDecodedSample(sample))
         {
-            double timestamp = double(getValueFromName("timestamp", sample)) * (1.0/ASSERV_FREQ); // 1st value in sample is the timestamp
+            double period = 1.0/uartDecoder.getAsservFrequency();
+            double timestamp = double(getValueFromName("timestamp", sample)) * period; // 1st value in sample is the timestamp
             std::lock_guard < std::mutex > lock(mutex());
             for (auto &it : dataMap().numeric)
             {
