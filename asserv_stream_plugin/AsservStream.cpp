@@ -99,6 +99,7 @@ bool AsservStream::start(QStringList*)
 
     if (ok)
     {
+        uartDecoder.reset();
         const uint32_t synchroWord_connection = 0xDEADBEEF;
         int dummy = write(fd, (char*)&synchroWord_connection, sizeof(synchroWord_connection));
 

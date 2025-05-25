@@ -12,6 +12,21 @@ AsservStream_uartDecoder::AsservStream_uartDecoder(unsigned int nb_values_maximu
 	currentSample = new float[nb_values_maximum_in_sample];
 	nbValues = 0;
 	currentState = &AsservStream_uartDecoder::synchroLookUp;
+    reset();
+}
+
+
+void AsservStream_uartDecoder::reset()
+{
+
+	synchroLookUp_nbSynchroByteFound = 0;
+	synchroLookUp_nbSynchroConfigByteFound = 0;
+	synchroLookUp_nbSynchroConnectionByteFound = 0;
+	getRemainingData_nbByteRead = 0;
+	getRemainingConfig_nbByteRead = 0;
+	getRemainingConfig_nbByteToRead = 0;
+	getRemainingConnectionInformations_nbByteRead = 0;
+	getRemainingConnectionInformations_nbByteToRead = 0;
 }
 
 
@@ -26,42 +41,37 @@ void AsservStream_uartDecoder::processBytes(uint8_t *buffer, unsigned int nbByte
 void AsservStream_uartDecoder::synchroLookUp(uint8_t byte)
 {
 	constexpr uint32_t synchroWord = 0xCAFED00D;
-	static int nbSynchroByteFound = 0;
-
 	constexpr uint32_t synchroWord_config = 0xCAFEDECA;
-	static int nbSynchroConfigByteFound = 0;
-
 	constexpr uint32_t synchroWord_connection = 0xDEADBEEF;
-	static int nbSynchroConnectionByteFound = 0;
 
 	bool publish_sample = false;
 
-    if( byte == ((uint8_t*)&synchroWord)[nbSynchroByteFound] )
+    if( byte == ((uint8_t*)&synchroWord)[synchroLookUp_nbSynchroByteFound] )
     {
-    	nbSynchroByteFound++;
+    	synchroLookUp_nbSynchroByteFound++;
     }
-    else if( byte == ((uint8_t*)&synchroWord_config)[nbSynchroConfigByteFound] )
+    else if( byte == ((uint8_t*)&synchroWord_config)[synchroLookUp_nbSynchroConfigByteFound] )
     {
-    	nbSynchroConfigByteFound++;
+    	synchroLookUp_nbSynchroConfigByteFound++;
     }
-    else if( byte == ((uint8_t*)&synchroWord_connection)[nbSynchroConnectionByteFound] )
+    else if( byte == ((uint8_t*)&synchroWord_connection)[synchroLookUp_nbSynchroConnectionByteFound] )
     {
-        nbSynchroConnectionByteFound++;
+        synchroLookUp_nbSynchroConnectionByteFound++;
     }
     else
     {
     	isCurrentSampleValid = false;
-    	nbSynchroByteFound = 0;
-    	nbSynchroConfigByteFound = 0;
-    	nbSynchroConnectionByteFound = 0;
+    	synchroLookUp_nbSynchroByteFound = 0;
+    	synchroLookUp_nbSynchroConfigByteFound = 0;
+    	synchroLookUp_nbSynchroConnectionByteFound = 0;
     	printf("drop ..\n");
     }
 
-   if( nbSynchroByteFound == sizeof(synchroWord) )  // Synchro found !
+   if( synchroLookUp_nbSynchroByteFound == sizeof(synchroWord) )  // Synchro found !
    {
-        nbSynchroByteFound = 0;
-        nbSynchroConfigByteFound = 0;
-        nbSynchroConnectionByteFound = 0;
+        synchroLookUp_nbSynchroByteFound = 0;
+        synchroLookUp_nbSynchroConfigByteFound = 0;
+        synchroLookUp_nbSynchroConnectionByteFound = 0;
 		currentState =  &AsservStream_uartDecoder::getRemainingData;
 
 		if( isCurrentSampleValid)
@@ -70,11 +80,11 @@ void AsservStream_uartDecoder::synchroLookUp(uint8_t byte)
 		}
    }
 
-   if( nbSynchroConfigByteFound == sizeof(synchroWord_config) )  // config Synchro found !
+   if( synchroLookUp_nbSynchroConfigByteFound == sizeof(synchroWord_config) )  // config Synchro found !
    {
-       nbSynchroByteFound = 0;
-       nbSynchroConfigByteFound = 0;
-       nbSynchroConnectionByteFound = 0;
+       synchroLookUp_nbSynchroByteFound = 0;
+       synchroLookUp_nbSynchroConfigByteFound = 0;
+       synchroLookUp_nbSynchroConnectionByteFound = 0;
 		currentState =  &AsservStream_uartDecoder::getRemainingConfig;
 
 		if( isCurrentSampleValid)
@@ -83,13 +93,13 @@ void AsservStream_uartDecoder::synchroLookUp(uint8_t byte)
 		}
    }
 
-   if( nbSynchroConnectionByteFound == sizeof(synchroWord_connection) )  // config Synchro found !
+   if( synchroLookUp_nbSynchroConnectionByteFound == sizeof(synchroWord_connection) )  // config Synchro found !
    {
-       printf("description message! ..\n");
-       nbSynchroByteFound = 0;
-       nbSynchroConfigByteFound = 0;
-       nbSynchroConnectionByteFound = 0;
-		currentState =  &AsservStream_uartDecoder::getRemainingConnectionInformations;
+        printf("description message! ..\n");
+        synchroLookUp_nbSynchroByteFound = 0;
+        synchroLookUp_nbSynchroConfigByteFound = 0;
+        synchroLookUp_nbSynchroConnectionByteFound = 0;
+	    currentState =  &AsservStream_uartDecoder::getRemainingConnectionInformations;
 
 		if( isCurrentSampleValid)
 		{
@@ -110,31 +120,29 @@ void AsservStream_uartDecoder::synchroLookUp(uint8_t byte)
 
 void AsservStream_uartDecoder::getRemainingData(uint8_t byte)
 {
-    static int nbByteRead = 0;
-
     uint8_t *currentDecodedSamplePtr = (uint8_t*)currentSample;
-    currentDecodedSamplePtr[nbByteRead++] = byte;
+    currentDecodedSamplePtr[getRemainingData_nbByteRead++] = byte;
 
-    if( currentSampleSize == 0 && nbByteRead == sizeof(uint32_t) )
+    if( currentSampleSize == 0 && getRemainingData_nbByteRead == sizeof(uint32_t) )
     {
         // The first 32bit was read, it contains the total sample size.
         currentSampleSize = *((uint32_t*)currentDecodedSamplePtr);
-        nbByteRead = 0;
+        getRemainingData_nbByteRead = 0;
 
 
         if( currentSampleSize  > nb_values_maximum_in_sample*sizeof(float))
         {
             printf("Want to retrieve %d sample in the stream.... probably garbage ?\n", currentSampleSize);
             // probably garbage !
-            nbByteRead = 0;
+            getRemainingData_nbByteRead = 0;
             currentState =  &AsservStream_uartDecoder::synchroLookUp;
             isCurrentSampleValid = false;
         }
     }
 
-    if(currentSampleSize > 0 && nbByteRead == currentSampleSize)
+    if(currentSampleSize > 0 && getRemainingData_nbByteRead == currentSampleSize)
     {   
-        nbByteRead = 0;
+        getRemainingData_nbByteRead = 0;
 		currentState =  &AsservStream_uartDecoder::synchroLookUp;
 		isCurrentSampleValid = true;
 	}
@@ -142,24 +150,21 @@ void AsservStream_uartDecoder::getRemainingData(uint8_t byte)
 
 void AsservStream_uartDecoder::getRemainingConfig(uint8_t byte)
 {
-    static int nbByteRead = 0;
-    static uint32_t nbByteToRead = 0;
+    configBuffer[getRemainingConfig_nbByteRead++] = byte;
 
-    configBuffer[nbByteRead++] = byte;
-
-    if( nbByteToRead == 0 && nbByteRead == sizeof(uint32_t) )
+    if( getRemainingConfig_nbByteToRead == 0 && getRemainingConfig_nbByteRead == sizeof(uint32_t) )
     {
         uint32_t *ptr = (uint32_t*)configBuffer;
-    	nbByteToRead = *ptr;
-    	printf("%d bytes to read for configuration \n", nbByteToRead);
-    	nbByteRead = 0;
+    	getRemainingConfig_nbByteToRead = *ptr;
+    	printf("%d bytes to read for configuration \n", getRemainingConfig_nbByteToRead);
+    	getRemainingConfig_nbByteRead = 0;
     }
 
-    if( nbByteToRead > 0 && nbByteRead == nbByteToRead)
+    if( getRemainingConfig_nbByteToRead > 0 && getRemainingConfig_nbByteRead == getRemainingConfig_nbByteToRead)
 	{
-	  configBuffer[nbByteRead] = 0;
-	  nbByteRead = 0;
-	  nbByteToRead = 0;
+	  configBuffer[getRemainingConfig_nbByteRead] = 0;
+	  getRemainingConfig_nbByteRead = 0;
+	  getRemainingConfig_nbByteToRead = 0;
 	  currentState =  &AsservStream_uartDecoder::synchroLookUp;
 	  configAvailable = true;
 	}
@@ -169,24 +174,21 @@ void AsservStream_uartDecoder::getRemainingConfig(uint8_t byte)
 
 void AsservStream_uartDecoder::getRemainingConnectionInformations(uint8_t byte)
 {
-    static int nbByteRead = 0;
-    static uint32_t nbByteToRead = 0;
+    descriptionBuffer[getRemainingConnectionInformations_nbByteRead++] = byte;
 
-    descriptionBuffer[nbByteRead++] = byte;
-
-    if( nbByteToRead == 0 && nbByteRead == sizeof(uint32_t) )
+    if( getRemainingConnectionInformations_nbByteToRead == 0 && getRemainingConnectionInformations_nbByteRead == sizeof(uint32_t) )
     {
         uint32_t *ptr = (uint32_t*)descriptionBuffer;
-    	nbByteToRead = *ptr;
-    	printf("%d bytes to read for description \n", nbByteToRead);
-    	nbByteRead = 0;
+    	getRemainingConnectionInformations_nbByteToRead = *ptr;
+    	printf("%d bytes to read for description \n", getRemainingConnectionInformations_nbByteToRead);
+    	getRemainingConnectionInformations_nbByteRead = 0;
     }
 
-    if( nbByteToRead > 0 && nbByteRead == nbByteToRead)
+    if( getRemainingConnectionInformations_nbByteToRead > 0 && getRemainingConnectionInformations_nbByteRead == getRemainingConnectionInformations_nbByteToRead)
     {
-        descriptionBuffer[nbByteRead] = 0;
-        nbByteRead = 0;
-        nbByteToRead = 0;
+        descriptionBuffer[getRemainingConnectionInformations_nbByteRead] = 0;
+        getRemainingConnectionInformations_nbByteRead = 0;
+        getRemainingConnectionInformations_nbByteToRead = 0;
         currentState =  &AsservStream_uartDecoder::synchroLookUp;
 
         std::string str((char*)descriptionBuffer);

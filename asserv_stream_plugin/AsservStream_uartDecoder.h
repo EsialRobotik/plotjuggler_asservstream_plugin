@@ -12,6 +12,8 @@ public:
 	explicit AsservStream_uartDecoder(unsigned int nb_values_maximum_in_sample = 50);
     virtual ~AsservStream_uartDecoder(){};
 
+	void reset();
+
 	void processBytes(uint8_t *buffer, unsigned int nbBytes);
 	bool getDecodedSample(std::vector<float> &sample);
 
@@ -41,6 +43,19 @@ private:
 	float *currentSample;
 
 	unsigned int currentSampleSize;
+
+
+	int synchroLookUp_nbSynchroByteFound;
+	int synchroLookUp_nbSynchroConfigByteFound;
+	int synchroLookUp_nbSynchroConnectionByteFound;
+
+	int getRemainingData_nbByteRead;
+
+	int getRemainingConfig_nbByteRead;
+	int getRemainingConfig_nbByteToRead;
+
+	int getRemainingConnectionInformations_nbByteRead;
+	uint32_t getRemainingConnectionInformations_nbByteToRead;
 };
 
 #endif
