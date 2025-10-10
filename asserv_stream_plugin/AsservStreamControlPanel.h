@@ -39,6 +39,8 @@ public slots:
     void on_distance_acc_update_btn_clicked();
     void on_distance_acc_dec_update_btn_clicked();
 
+    void on_distance_acc_simple_update_btn_clicked();
+
     void on_robot_speed_lin_cmd_btn_clicked();
     void on_robot_speed_ang_cmd_btn_clicked();
     void on_left_whell_speed_cmd_btn_clicked();

@@ -56,12 +56,14 @@ QGroupBox::title {
      </property>
      <property name="font">
       <font>
-       <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_vitesse_gauche">
       <attribute name="title">
@@ -473,20 +475,76 @@ QGroupBox::title {
         <string>mm/s²</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_34">
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Acceleration distance simple</string>
+      </attribute>
+      <widget class="QDoubleSpinBox" name="dist_acc_simple_max">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>90</y>
-         <width>481</width>
-         <height>81</height>
+         <x>230</x>
+         <y>40</y>
+         <width>81</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <double>10000.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_75">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>40</y>
+         <width>121</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="text">
-        <string>(Also left wheel acceleration limit for direct speed consign)</string>
+        <string>mm/s²</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_31">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>211</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Distance max acceleration</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="distance_acc_simple_update_btn">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>450</x>
+         <y>60</y>
+         <width>99</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Update</string>
        </property>
       </widget>
      </widget>
@@ -496,12 +554,11 @@ QGroupBox::title {
       </property>
       <property name="font">
        <font>
-        <weight>50</weight>
         <bold>false</bold>
        </font>
       </property>
       <attribute name="title">
-       <string>Acceleration distance</string>
+       <string>Acceleration distance advanced</string>
       </attribute>
       <widget class="QLabel" name="label_33">
        <property name="geometry">
@@ -560,30 +617,14 @@ QGroupBox::title {
        </property>
        <property name="geometry">
         <rect>
-         <x>390</x>
-         <y>60</y>
+         <x>450</x>
+         <y>80</y>
          <width>99</width>
          <height>27</height>
         </rect>
        </property>
        <property name="text">
         <string>Update</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_31">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>50</y>
-         <width>361</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>(Also right wheel acceleration limit for direct speed consign)</string>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
        </property>
       </widget>
       <widget class="QDoubleSpinBox" name="dist_acc_min">
@@ -593,7 +634,7 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>230</x>
-         <y>120</y>
+         <y>90</y>
          <width>81</width>
          <height>27</height>
         </rect>
@@ -612,7 +653,7 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>330</x>
-         <y>120</y>
+         <y>90</y>
          <width>121</width>
          <height>21</height>
         </rect>
@@ -625,7 +666,7 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>100</y>
+         <y>70</y>
          <width>221</width>
          <height>61</height>
         </rect>
@@ -1891,7 +1932,7 @@ QGroupBox::title {
      <x>0</x>
      <y>0</y>
      <width>1194</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

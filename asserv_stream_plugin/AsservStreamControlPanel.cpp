@@ -59,6 +59,7 @@ void AsservStreamControlPanel::send(char *buffer, size_t length)
 	}
 }
 
+
 void AsservStreamControlPanel::on_reset_btn_clicked()
 {
     char buffer[] = "asserv reset";
@@ -96,70 +97,148 @@ void AsservStreamControlPanel::on_distAngle_disable_btn_clicked()
 
 void AsservStreamControlPanel::on_vitesse_gauche_update_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv speedcontrol l %s %s %s",
-                      ui_->vitesse_gauche_Kp->text().toStdString().c_str(),
-                      ui_->vitesse_gauche_Ki->text().toStdString().c_str(),
-                      ui_->vitesse_gauche_range->text().toStdString().c_str() );
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("speed_left")
+		.key("Range_0")
+			.array()
+				.item(leftKp[0])
+				.item(leftKi[0])
+			.end()
+		.key("Range_1")
+			.array()
+				.item(leftKp[1])
+				.item(leftKi[1])
+			.end()			
+		.key("Range_2")
+			.array()
+				.item(leftKp[2])
+				.item(leftKi[2])
+			.end()			
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
 
 void AsservStreamControlPanel::on_vitesse_droite_update_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv speedcontrol r %s %s %s",
-                      ui_->vitesse_droite_Kp->text().toStdString().c_str(),
-                      ui_->vitesse_droite_Ki->text().toStdString().c_str(),
-                      ui_->vitesse_droite_range->text().toStdString().c_str());
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("speed_right")
+		.key("Range_0")
+			.array()
+				.item(rightKp[0])
+				.item(rightKi[0])
+			.end()
+		.key("Range_1")
+			.array()
+				.item(rightKp[1])
+				.item(rightKi[1])
+			.end()			
+		.key("Range_2")
+			.array()
+				.item(rightKp[2])
+				.item(rightKi[2])
+			.end()			
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
 
 void AsservStreamControlPanel::on_distance_update_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv distcontrol %s",
-                      ui_->distance_Kp->text().toStdString().c_str() );
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("dist_regulator")
+		.key("Kp").value( (float)ui_->distance_Kp->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
+
 }
 void AsservStreamControlPanel::on_angle_update_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv anglecontrol %s",
-                      ui_->angle_Kp->text().toStdString().c_str() );
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("angle_regulator")
+		.key("Kp").value( (float)ui_->angle_Kp->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
 
 void AsservStreamControlPanel::on_angle_acc_update_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv angleacc %s",
-              ui_->angle_acc->text().toStdString().c_str() );
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("angle_acc")
+		.key("max_acc").value( (float)ui_->angle_acc->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
 
 void AsservStreamControlPanel::on_distance_acc_update_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv distacc %s %s %s",
-              ui_->dist_acc_max->text().toStdString().c_str(),
-              ui_->dist_acc_min->text().toStdString().c_str(),
-			  ui_->dist_acc_threshold->text().toStdString().c_str()
-			  );
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("dist_acc")
+		.key("max_acc").value( (float)ui_->dist_acc_max->value())
+		.key("min_acc").value( (float)ui_->dist_acc_min->value())
+		.key("highspeed_threshold").value( (float)ui_->dist_acc_threshold->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
+}
+
+void AsservStreamControlPanel::on_distance_acc_simple_update_btn_clicked()
+{
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("dist_acc")
+		.key("max_acc").value( (float)ui_->dist_acc_simple_max->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
 
 void AsservStreamControlPanel::on_distance_acc_dec_update_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv distaccdec %s %s %s %s %s",
-              ui_->dist_acc_fw->text().toStdString().c_str(),
-              ui_->dist_dec_fw->text().toStdString().c_str(),
-			  ui_->dist_acc_bw->text().toStdString().c_str(),
-			  ui_->dist_dec_bw->text().toStdString().c_str(),
-			  ui_->dist_dampling->text().toStdString().c_str()
-
-			  );
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("dist_acc")
+		.key("max_acc_fw").value( (float)ui_->dist_acc_fw->value())
+		.key("max_acc_bw").value( (float)ui_->dist_acc_bw->value())
+		.key("max_dec_fw").value( (float)ui_->dist_dec_fw->value())
+		.key("max_dec_bw").value( (float)ui_->dist_dec_bw->value())
+		.key("dampling").value( (float)ui_->dist_dampling->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
 
 
@@ -251,7 +330,8 @@ void AsservStreamControlPanel::on_update_config_btn_clicked()
 		
 		if( str == "acc_limiter")
 		{
-			// TODO :add Gui
+			top.find("dist_acc").find("max_acc").getFloat(&valFloat);
+			ui_->dist_acc_simple_max->setValue(valFloat);
 		}
 		else if ( str == "adv_acc_limiter")
 		{
@@ -288,7 +368,7 @@ void AsservStreamControlPanel::on_update_config_btn_clicked()
 	{
 		if( str == "acc_limiter")
 		{
-			top.find("dist_acc").find("max_acc").getFloat(&valFloat);
+			top.find("angle_acc").find("max_acc").getFloat(&valFloat);
 			ui_->angle_acc->setValue(valFloat);
 		}
 	}

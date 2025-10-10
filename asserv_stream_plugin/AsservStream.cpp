@@ -198,9 +198,10 @@ void AsservStream::loop()
         if (bytes_read > 0)
         {
             uartDecoder.processBytes(read_buffer, bytes_read);
+            pushSingleCycle();
         }
 
-        pushSingleCycle();
+        
         std::this_thread::sleep_for(std::chrono::microseconds(500));
     }
 

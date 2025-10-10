@@ -1,0 +1,219 @@
+asserv adddist 100
+asserv adddist 100
+asserv adddist 500
+asserv adddist 500
+asserv adddist -500
+asserv adddist -100
+asserv adddist 800
+asserv get_config
+asserv distacc 2000.0 500.0 50.0
+asserv adddist -800
+asserv distacc 2500.0 500.0 50.0
+asserv adddist 800
+asserv distacc 2000.0 500.0 50.0
+asserv distacc 2500.0 500.0 50.0
+asserv adddist 800
+asserv distacc 2000.0 500.0 50.0
+asserv adddist -800
+asserv adddist 800
+asserv adddist 100
+asserv adddist -100
+asserv adddist 100
+asserv adddist -100
+asserv distacc 2000.0 500.0 50.0
+asserv adddist 100
+asserv adddist -100
+asserv distacc 2500.0 500.0 50.0
+asserv adddist 100
+asserv adddist -100
+asserv adddist 80
+asserv adddist 100
+asserv adddist 100
+asserv adddist 100
+asserv adddist 100
+asserv adddist 100
+asserv adddist 100
+asserv adddist 100
+asserv adddist 100
+asserv adddist 100
+asserv adddist 100
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist -80
+asserv adddist -80
+asserv adddist -80
+asserv adddist -80
+asserv adddist -80
+asserv adddist -80
+asserv adddist -80
+asserv adddist -80
+asserv adddist -80
+asserv adddist -80
+asserv adddist -80
+asserv adddist -80
+asserv adddist -80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv distacc 2500.0 500.0 50.0
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv distacc 2500.0 500.0 50.0
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv distacc 2500.0 500.0 50.0
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv distacc 2500.0 500.0 50.0
+asserv distacc 2200.0 500.0 50.0
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv adddist 80
+asserv distacc 2000.0 500.0 50.0
+asserv distacc 2000.0 500.0 50.0
+asserv adddist 800
+asserv adddist -800
+asserv distacc 3000.0 500.0 50.0
+asserv adddist 800
+asserv adddist -800
+asserv distacc 2000.0 500.0 50.0
+asserv adddist 800
+asserv adddist 800
+asserv adddist -800
+asserv distacc 2500.0 500.0 50.0
+asserv adddist 800
+asserv adddist -800
+asserv distacc 3000.0 500.0 50.0
+asserv adddist 800
+asserv distacc 2500.0 500.0 50.0
+asserv adddist 0
+asserv adddist 800
+asserv distacc 2500.0 500.0 50.0
+asserv addgoto 800 0
+asserv addgoto 800 0
+asserv distacc 2500.0 500.0 50.0
+asserv addgoto 800 0
+asserv adddist -800
+asserv gototest
+asserv addgoto 0 0
+asserv gototest
+asserv distacc 3000.0 500.0 200.0
+asserv gototest
+asserv distacc 3000.0 500.0 200.0
+asserv gototest
+asserv distacc 2500.0 500.0 100.0
+asserv gototest
+asserv adddist 100
+asserv addangle 3.14
+asserv addangle -3.14
+asserv angleacc 3500.0
+asserv addangle 3.14
+asserv angleacc 4000.0
+asserv addangle 3.14
+asserv angleacc 5000.0
+asserv addangle -3.14
+asserv addangle -3.14
+asserv angleacc 6000.0
+asserv addangle -3.14
+asserv addangle -3.14
+asserv gototest
+asserv addangle -3.14
+asserv anglecontrol 850.00
+asserv addangle -3.14
+asserv addangle 3.14
+asserv anglecontrol 950.00
+asserv addangle 3.14
+asserv gototest
+asserv distacc 2250.0 500.0 100.0
+asserv gototest
+asserv adddist -200
+asserv addangle 3.14
+asserv get_config
