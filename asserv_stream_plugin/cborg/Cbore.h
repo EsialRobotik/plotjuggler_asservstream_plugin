@@ -56,6 +56,8 @@ public:
     // write <integer>
     Cbore& item(int32_t value);
 
+    Cbore& item(float value);
+
     // write <simple type>
     Cbore& item(CborBase::SimpleType_t simpleType);
 
@@ -120,6 +122,8 @@ public:
 
     // insert value as simple type
     Cbore& value(CborBase::SimpleType_t value);
+
+    Cbore& value(float value);
 
     // insert value as const char array
     template <std::size_t I>

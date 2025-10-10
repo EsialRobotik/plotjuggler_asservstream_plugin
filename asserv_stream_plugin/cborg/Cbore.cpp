@@ -118,6 +118,22 @@ Cbore& Cbore::item(int32_t value)
     return *this;
 }
 
+// insert float
+Cbore& Cbore::item(float value)
+{
+    if( cbor)
+    {
+        cbor[currentLength++] = CborBase::TypeSpecial << 5 | CborBase::TypeSingleFloat;
+        uint32_t *valuePtr = (uint32_t*)&value; 
+        cbor[currentLength++] = (*valuePtr)>>24; 
+        cbor[currentLength++] = (*valuePtr)>>16; 
+        cbor[currentLength++] = (*valuePtr)>>8; 
+        cbor[currentLength++] = (*valuePtr); 
+    }
+    return *this;
+}
+
+
 // insert simple type
 Cbore& Cbore::item(CborBase::SimpleType_t simpleType)
 {
@@ -230,6 +246,21 @@ Cbore& Cbore::value(int32_t unit)
         }
     }
 
+    return *this;
+}
+
+// insert float
+Cbore& Cbore::value(float value)
+{
+    if( cbor)
+    {
+        cbor[currentLength++] = CborBase::TypeSpecial << 5 | CborBase::TypeSingleFloat;
+        uint32_t *valuePtr = (uint32_t*)&value; 
+        cbor[currentLength++] = (*valuePtr)>>24; 
+        cbor[currentLength++] = (*valuePtr)>>16; 
+        cbor[currentLength++] = (*valuePtr)>>8; 
+        cbor[currentLength++] = (*valuePtr); 
+    }
     return *this;
 }
 
