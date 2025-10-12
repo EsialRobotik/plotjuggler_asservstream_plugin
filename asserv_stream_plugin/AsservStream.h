@@ -47,6 +47,8 @@ private:
      bool openPort();
      void pushSingleCycle();
      double getValueFromName(const std::string &name, std::vector<float> &sample);
+     void send_connection_word();
+
 
      std::thread _thread;
      bool _running;
@@ -56,6 +58,7 @@ private:
      int fd;
      std::vector<std::string> asservStream_fields;
      bool deviceOpened;
+     bool description_retrieved;
 };
 
 #endif // ASSERVSTREAM_H

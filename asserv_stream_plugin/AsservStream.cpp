@@ -29,6 +29,7 @@ using namespace PJ;
 AsservStream::AsservStream():_running(false), fdLog(-1), fd(-1), deviceOpened(false)
 {
     controlPanelWindows = nullptr;
+    description_retrieved = false;
 }
 
 
@@ -47,6 +48,7 @@ bool AsservStream::openPort()
 
     if (!ok)
         return false;
+        
 
     fd = open(portName.toStdString().c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
     if (fd == -1)
@@ -81,6 +83,7 @@ bool AsservStream::start(QStringList*)
 {
     bool ok = openPort();
     bool tryAgain = !ok;
+    description_retrieved = false;
     while (tryAgain)
     {
         QMessageBox::StandardButton reply = QMessageBox::question(nullptr, "Unable to open port", "Unable to open port\nTry again?",
@@ -99,16 +102,14 @@ bool AsservStream::start(QStringList*)
     if (ok)
     {
         uartDecoder.reset();
-        const uint32_t synchroWord_connection = 0xDEADBEEF;
-        int dummy = write(fd, (char*)&synchroWord_connection, sizeof(synchroWord_connection));
 
-        std::lock_guard < std::mutex > lock(mutex());
-        // Insert dummy Point. it seems that there's a regression on plotjuggler, this dirty hack seems now necessary
-        for (auto &it : dataMap().numeric)
-        {
-            auto &plot = it.second;
-            plot.pushBack(PlotData::Point(0, 0));
-        }
+        // std::lock_guard < std::mutex > lock(mutex());
+        // // Insert dummy Point. it seems that there's a regression on plotjuggler, this dirty hack seems now necessary
+        // for (auto &it : dataMap().numeric)
+        // {
+        //     auto &plot = it.second;
+        //     plot.pushBack(PlotData::Point(0, 0));
+        // }
         _running = true;
         _thread = std::thread([this]()
         {   this->loop();});
@@ -126,6 +127,7 @@ bool AsservStream::start(QStringList*)
 
 void AsservStream::shutdown()
 {
+    printf("shutdown\n");
 	if( _running )
 	{
 		_running = false;
@@ -151,13 +153,17 @@ AsservStream::~AsservStream()
 
 void AsservStream::pushSingleCycle()
 {
-    if( uartDecoder.getNewDescription( asservStream_fields))
+    if( !description_retrieved )
     {
-        std::lock_guard<std::mutex> lock( mutex() );
-        for (int n = 0; n < asservStream_fields.size(); ++n)
+        if( uartDecoder.getDescription( asservStream_fields))
         {
-            dataMap().addNumeric(asservStream_fields[n]);
-            printf("[%d] => %s \n", n, asservStream_fields[n].c_str());
+            std::lock_guard<std::mutex> lock( mutex() );
+            for (int n = 0; n < asservStream_fields.size(); ++n)
+            {
+                dataMap().addNumeric(asservStream_fields[n]);
+                printf("[%d] => %s \n", n, asservStream_fields[n].c_str());
+            }
+            description_retrieved = true;
         }
     }
     else
@@ -186,11 +192,28 @@ void AsservStream::pushSingleCycle()
     }
 }
 
+void AsservStream::send_connection_word()
+{
+    const uint32_t synchroWord_connection = 0xDEADBEEF;
+    int dummy = write(fd, (char*)&synchroWord_connection, sizeof(synchroWord_connection));
+}
+
 void AsservStream::loop()
 {
+
+    auto last_connexion_word_sent = std::chrono::steady_clock::now();
+    send_connection_word();
     _running = true;
     while (_running && fd != -1)
     {
+        const auto now = std::chrono::steady_clock::now();
+        const std::chrono::duration<double> elapsed_seconds{now - last_connexion_word_sent};
+        if( !uartDecoder.isDescriptionAvailable() && elapsed_seconds.count() > 0.40)
+        {
+            last_connexion_word_sent = now;
+            send_connection_word();
+        }
+
         uint8_t read_buffer[512];
         int bytes_read = read(fd, read_buffer, sizeof(read_buffer));
 

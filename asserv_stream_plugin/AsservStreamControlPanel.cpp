@@ -2,6 +2,10 @@
 #include "cborg/Cbor.h"
 #include <unistd.h>  /* UNIX Standard Definitions      */
 
+
+constexpr uint32_t synchroWord_tune = 0xBAADC0DE;
+constexpr uint32_t synchroWord_cmd = 0xB00B5B1D;
+
 AsservStreamControlPanel::AsservStreamControlPanel(Ui_AsservStreamControlPanel *ui, AsservStream_uartDecoder *uartDecoder, int fd, int logFd ):
 QMainWindow(),ui_(ui), fd_(fd), logFd_(logFd), uartDecoder(uartDecoder)
 {
@@ -62,43 +66,65 @@ void AsservStreamControlPanel::send(char *buffer, size_t length)
 
 void AsservStreamControlPanel::on_reset_btn_clicked()
 {
-    char buffer[] = "asserv reset";
-    int len = sizeof(buffer);
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  synchroWord_cmd;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("reset")
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
 
 void AsservStreamControlPanel::on_motor_enable_btn_clicked()
 {
-    char buffer[] = "asserv enablemotor 1";
-    int len = sizeof(buffer);
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  synchroWord_cmd;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("enablemotor")
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
 
 void AsservStreamControlPanel::on_motor_disable_btn_clicked()
 {
-    char buffer[] = "asserv enablemotor 0";
-    int len = sizeof(buffer);
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  synchroWord_cmd;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("disablemotor")
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
 
 void AsservStreamControlPanel::on_distAngle_enable_btn_clicked()
 {
-    char buffer[] = "asserv enablepolar 1";
-    int len = sizeof(buffer);
-    send(buffer, len);
+	// Button to be removed
+
+    // char buffer[] = "asserv enablepolar 1";
+    // int len = sizeof(buffer);
+    // send(buffer, len);
 }
 
 void AsservStreamControlPanel::on_distAngle_disable_btn_clicked()
 {
-    char buffer[] = "asserv enablepolar 0";
-    int len = sizeof(buffer);
-    send(buffer, len);
+	// Button to be removed
+
+    // char buffer[] = "asserv enablepolar 0";
+    // int len = sizeof(buffer);
+    // send(buffer, len);
 }
 
 void AsservStreamControlPanel::on_vitesse_gauche_update_btn_clicked()
 {
 	uint8_t buffer[128];
-	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	((uint32_t*)buffer)[0] =  synchroWord_tune;
 	
 	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
 	encoder.map()
@@ -126,7 +152,7 @@ void AsservStreamControlPanel::on_vitesse_gauche_update_btn_clicked()
 void AsservStreamControlPanel::on_vitesse_droite_update_btn_clicked()
 {
 	uint8_t buffer[128];
-	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	((uint32_t*)buffer)[0] =  synchroWord_tune;
 	
 	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
 	encoder.map()
@@ -154,7 +180,7 @@ void AsservStreamControlPanel::on_vitesse_droite_update_btn_clicked()
 void AsservStreamControlPanel::on_distance_update_btn_clicked()
 {
 	uint8_t buffer[128];
-	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	((uint32_t*)buffer)[0] =  synchroWord_tune;
 	
 	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
 	encoder.map()
@@ -168,7 +194,7 @@ void AsservStreamControlPanel::on_distance_update_btn_clicked()
 void AsservStreamControlPanel::on_angle_update_btn_clicked()
 {
 	uint8_t buffer[128];
-	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	((uint32_t*)buffer)[0] =  synchroWord_tune;
 	
 	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
 	encoder.map()
@@ -182,7 +208,7 @@ void AsservStreamControlPanel::on_angle_update_btn_clicked()
 void AsservStreamControlPanel::on_angle_acc_update_btn_clicked()
 {
 	uint8_t buffer[128];
-	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	((uint32_t*)buffer)[0] =  synchroWord_tune;
 	
 	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
 	encoder.map()
@@ -196,7 +222,7 @@ void AsservStreamControlPanel::on_angle_acc_update_btn_clicked()
 void AsservStreamControlPanel::on_distance_acc_update_btn_clicked()
 {
 	uint8_t buffer[128];
-	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	((uint32_t*)buffer)[0] =  synchroWord_tune;
 	
 	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
 	encoder.map()
@@ -212,7 +238,7 @@ void AsservStreamControlPanel::on_distance_acc_update_btn_clicked()
 void AsservStreamControlPanel::on_distance_acc_simple_update_btn_clicked()
 {
 	uint8_t buffer[128];
-	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	((uint32_t*)buffer)[0] =  synchroWord_tune;
 	
 	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
 	encoder.map()
@@ -226,7 +252,7 @@ void AsservStreamControlPanel::on_distance_acc_simple_update_btn_clicked()
 void AsservStreamControlPanel::on_distance_acc_dec_update_btn_clicked()
 {
 	uint8_t buffer[128];
-	((uint32_t*)buffer)[0] =  0xBAADC0DE;
+	((uint32_t*)buffer)[0] =  synchroWord_tune;
 	
 	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
 	encoder.map()
@@ -244,62 +270,149 @@ void AsservStreamControlPanel::on_distance_acc_dec_update_btn_clicked()
 
 void AsservStreamControlPanel::on_robot_speed_lin_cmd_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv robotfwspeedstep %s %s", ui_->robot_speed_lin_cmd->text().toStdString().c_str(),
-            ui_->speed_consign_duration->text().toStdString().c_str());
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  synchroWord_cmd;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("robotfwspeedstep")
+		.key("speed").item((float) ui_->robot_speed_lin_cmd->value())
+		.key("duration").item((float)ui_->speed_consign_duration->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
 
 void AsservStreamControlPanel::on_robot_speed_ang_cmd_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv robotangspeedstep %s %s", ui_->robot_speed_ang_cmd->text().toStdString().c_str(),
-            ui_->speed_consign_duration->text().toStdString().c_str());
-    send(buffer, len);
+    // char buffer[128];
+    // int len = sprintf(buffer, "asserv robotangspeedstep %s %s", ui_->robot_speed_ang_cmd->text().toStdString().c_str(),
+    //         ui_->speed_consign_duration->text().toStdString().c_str());
+    // send(buffer, len);
+
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  synchroWord_cmd;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("robotangspeedstep")
+		.key("speed").item((float) ui_->robot_speed_ang_cmd->value())
+		.key("duration").item((float)ui_->speed_consign_duration->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
 
 void AsservStreamControlPanel::on_left_whell_speed_cmd_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv wheelspeedstep l %s %s", ui_->left_wheel_speed_cmd->text().toStdString().c_str(),
-            ui_->speed_consign_duration->text().toStdString().c_str());
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  synchroWord_cmd;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("wheelspeedstepLeft")
+		.key("speed").item((float) ui_->left_wheel_speed_cmd->value())
+		.key("duration").item((float)ui_->speed_consign_duration->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
+
 
 void AsservStreamControlPanel::on_right_whell_speed_cmd_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv wheelspeedstep r %s %s", ui_->right_wheel_speed_cmd->text().toStdString().c_str(),
-            ui_->speed_consign_duration->text().toStdString().c_str());
-    send(buffer, len);
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  synchroWord_cmd;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("wheelspeedstepRight")
+		.key("speed").item((float) ui_->right_wheel_speed_cmd->value())
+		.key("duration").item((float)ui_->speed_consign_duration->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
+
 }
 
 void AsservStreamControlPanel::on_pos_cmd_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv adddist %s", ui_->pos_cmd->text().toStdString().c_str());
-    send(buffer, len);
+    // char buffer[128];
+    // int len = sprintf(buffer, "asserv adddist %s", ui_->pos_cmd->text().toStdString().c_str());
+    // send(buffer, len);
+
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  synchroWord_cmd;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("adddist")
+		.key("dist").item((float) ui_->pos_cmd->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );
 }
 
 void AsservStreamControlPanel::on_angle_cmd_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv addangle %s", ui_->angle_cmd->text().toStdString().c_str());
-    send(buffer, len);
+    // char buffer[128];
+    // int len = sprintf(buffer, "asserv addangle %s", ui_->angle_cmd->text().toStdString().c_str());
+    // send(buffer, len);
+
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  synchroWord_cmd;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("addangle")
+		.key("angle").item((float) ui_->angle_cmd->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );	
 }
 
 void AsservStreamControlPanel::on_goto_cmd_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv addgoto %s %s", ui_->goto_X->text().toStdString().c_str(), ui_->goto_Y->text().toStdString().c_str());
-    send(buffer, len);
+    // char buffer[128];
+    // int len = sprintf(buffer, "asserv addgoto %s %s", ui_->goto_X->text().toStdString().c_str(), ui_->goto_Y->text().toStdString().c_str());
+    // send(buffer, len);
+
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  synchroWord_cmd;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("addgoto")
+		.key("X").item((float) ui_->goto_X->value())
+		.key("Y").item((float) ui_->goto_Y->value())
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );		
 }
 
 void AsservStreamControlPanel::on_goto_test_btn_clicked()
 {
-    char buffer[128];
-    int len = sprintf(buffer, "asserv gototest");
-    send(buffer, len);
+
+	uint8_t buffer[128];
+	((uint32_t*)buffer)[0] =  synchroWord_cmd;
+	
+	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder.map()
+		.key("name").item("addgotoNoStop")
+		.key("X").item((float) 150)
+		.key("Y").item((float) 0)
+	.end();
+	encoder.print();
+    send((char*)buffer, encoder.getLength()+sizeof(uint32_t) );		
+
+	Cbore encoder2(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
+	encoder2.map()
+		.key("name").item("addgotoNoStop")
+		.key("X").item((float) 150)
+		.key("Y").item((float) 150)
+	.end();
+	encoder2.print();
+    send((char*)buffer, encoder2.getLength()+sizeof(uint32_t) );		
 }
 
 

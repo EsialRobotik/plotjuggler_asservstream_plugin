@@ -17,7 +17,7 @@ public:
 	void processBytes(uint8_t *buffer, unsigned int nbBytes);
 	bool getDecodedSample(std::vector<float> &sample);
 
-	bool getNewDescription(std::vector<std::string> &description);
+	bool getDescription(std::vector<std::string> &description);
 
 	uint8_t configBuffer[512];
 	uint32_t configBufferSize;
@@ -26,6 +26,8 @@ public:
 	bool configAvailable = false;
 
 	unsigned int getAsservFrequency() const;
+
+	bool isDescriptionAvailable() const;
 
 private:
 	bool isCurrentSampleValid = false;

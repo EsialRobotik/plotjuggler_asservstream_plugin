@@ -38,6 +38,11 @@ unsigned int AsservStream_uartDecoder::getAsservFrequency() const
     return asservFrequency;
 }
 
+bool AsservStream_uartDecoder::isDescriptionAvailable() const
+{
+    return description_available;
+}
+
 void AsservStream_uartDecoder::processBytes(uint8_t *buffer, unsigned int nbBytes)
 {
 	for(int i=0; i<nbBytes; i++)
@@ -236,19 +241,16 @@ bool AsservStream_uartDecoder::getDecodedSample(std::vector<float> &sample)
 }
 
 
-bool AsservStream_uartDecoder::getNewDescription(std::vector<std::string> &description)
+bool AsservStream_uartDecoder::getDescription(std::vector<std::string> &description)
 {
     if( description_available )
     {
         description = decodedDescription;
-        description_available = false;
         return true;
     }
     else
     {
         return false;
     }
-
-
 }
 
