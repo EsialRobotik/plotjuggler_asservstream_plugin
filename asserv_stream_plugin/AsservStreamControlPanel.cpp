@@ -125,6 +125,9 @@ void AsservStreamControlPanel::on_vitesse_gauche_update_btn_clicked()
 {
 	uint8_t buffer[128];
 	((uint32_t*)buffer)[0] =  synchroWord_tune;
+
+	leftKp[leftSpinBoxValue] = ui_->vitesse_gauche_Kp->value();
+	leftKi[leftSpinBoxValue] = ui_->vitesse_gauche_Ki->value();
 	
 	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
 	encoder.map()
@@ -153,6 +156,9 @@ void AsservStreamControlPanel::on_vitesse_droite_update_btn_clicked()
 {
 	uint8_t buffer[128];
 	((uint32_t*)buffer)[0] =  synchroWord_tune;
+
+	rightKp[rightSpinBoxValue] = ui_->vitesse_droite_Kp->value();
+	rightKi[rightSpinBoxValue] = ui_->vitesse_droite_Ki->value();
 	
 	Cbore encoder(&(buffer[4]), (std::size_t)(sizeof(buffer)-sizeof(uint32_t)));
 	encoder.map()
